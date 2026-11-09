@@ -1,0 +1,2957 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Observatorio de Empleo - INE | Design System y Aplicación</title>
+<style>
+    /* ==========================================================================
+       SECCIÓN 3: TOKENS DE DISEÑO (MODO CLARO Y MODO OSCURO)
+       ========================================================================== */
+    :root {
+      /* MODO CLARO (Default) */
+      --color-title-numbers: #16161a;
+      --color-background: #f6f6f7;
+      --color-text-body: #6b6b70;
+      --color-accent-icons: #c8102e;
+      --color-buttons-tags: #9e0c24;
+      --color-white: #ffffff;
+      --color-border: #e2e2e5;
+      --color-border-subtle: #eaeaea;
+      --color-surface-card: #ffffff;
+      --color-surface-hover: #f1f1f3;
+      --color-surface-subtle: #fafafb;
+      --color-focus: #16161a;
+      --color-disabled: #a0a0a5;
+      --color-disabled-bg: #e6e6e8;
+      --color-tag-bg: #fce8eb;
+      --color-tag-border: #f7ccd2;
+      --color-cylinder-bg: #ebebee;
+      --color-bar-active-bg: #fbebee;
+      
+      /* Escala de color para mapa / rangos de desocupación */
+      --map-scale-low: #fbebee;    /* 4.0% - 6.9% */
+      --map-scale-mid: #f5b5bd;    /* 7.0% - 8.9% */
+      --map-scale-high: #e2586e;   /* 9.0% - 10.4% */
+      --map-scale-alert: #9e0c24;  /* 10.5% - 12.0% */
+
+      /* Tokens de Tipografía: Títulos y Cifras Estadísticas en Cambria */
+      --font-family-titles: 'Cambria', Georgia, serif;
+      --font-family-numbers: 'Cambria', Georgia, serif;
+      --font-family-body: Arial, sans-serif;
+      --font-family-btn: Arial, sans-serif;
+      --font-weight-btn: bold;
+
+      --font-size-xs: 11px;
+      --font-size-sm: 13px;
+      --font-size-base: 15px;
+      --font-size-lg: 18px;
+      --font-size-xl: 22px;
+      --font-size-2xl: 28px;
+      --font-size-stat: 36px;
+      --font-weight-regular: 400;
+      --font-weight-medium: 500;
+      --font-weight-bold: 700;
+
+      /* Espaciado */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 3px rgba(22, 22, 26, 0.05);
+      --shadow-md: 0 4px 12px rgba(22, 22, 26, 0.07);
+    }
+
+    /* TEMA OSCURO (DARK MODE) */
+    body.dark-mode {
+      --color-title-numbers: #f4f4f6;
+      --color-background: #121214;
+      --color-text-body: #a0a0a6;
+      --color-accent-icons: #ff4d6d;
+      --color-buttons-tags: #b81432;
+      --color-white: #1e1e24;
+      --color-border: #2e2e38;
+      --color-border-subtle: #26262f;
+      --color-surface-card: #1e1e24;
+      --color-surface-hover: #282832;
+      --color-surface-subtle: #17171c;
+      --color-focus: #f4f4f6;
+      --color-disabled: #5a5a64;
+      --color-disabled-bg: #2b2b35;
+      --color-tag-bg: #38151c;
+      --color-tag-border: #5a1e28;
+      --color-cylinder-bg: #2d2d38;
+      --color-bar-active-bg: #341a22;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.2s ease;
+    }
+
+    body {
+      background-color: var(--color-background);
+      color: var(--color-text-body);
+      font-family: var(--font-family-body);
+      font-size: var(--font-size-base);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 60px;
+    }
+
+    /* Tipografía obligatoria por jerarquía: Títulos y Cifras en Cambria */
+    h1, h2, h3, h4, h5, h6, .section-title, .app-header h1, .stat-number, .metric-cifra, .tag-cifra {
+      font-family: var(--font-family-titles);
+    }
+
+    p, span, div, td, th, label, select, input, .section-desc, .stat-card-label, .context-label, .context-val {
+      font-family: var(--font-family-body);
+    }
+
+    /* Variación pp y cifras en contexto con tipografía de cifras */
+    .context-val, .table-cifra, .bar-value-desktop {
+      font-family: var(--font-family-numbers);
+    }
+
+    button, .btn-primary, .nav-tab-btn, .carousel-btn, .theme-toggle-btn {
+      font-family: var(--font-family-btn);
+      font-weight: var(--font-weight-btn);
+    }
+
+    /* Navegación por pestañas superiores */
+    .top-system-nav {
+      background-color: #16161a;
+      color: #fff;
+      padding: 12px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .top-system-nav .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #fff;
+      font-family: var(--font-family-titles);
+    }
+
+    .top-system-nav .nav-right-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .top-system-nav .nav-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .nav-tab-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-tab-btn:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .nav-tab-btn.active {
+      background: var(--color-accent-icons);
+      border-color: var(--color-accent-icons);
+    }
+
+    /* Botón Interruptor de Modo Claro / Modo Oscuro */
+    .theme-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: #fff;
+    }
+
+    .theme-toggle-btn .toggle-icon {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    .section-block {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-title {
+      color: var(--color-title-numbers);
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title .badge-num {
+      background-color: var(--color-buttons-tags);
+      color: #fff;
+      font-size: 13px;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-weight: bold;
+      font-family: var(--font-family-body);
+    }
+
+    .section-desc {
+      color: var(--color-text-body);
+      font-size: var(--font-size-sm);
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      padding-bottom: 12px;
+    }
+
+    /* Subsecciones */
+    .subhead {
+      color: var(--color-title-numbers);
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-bold);
+      margin: 16px 0 8px 0;
+      font-family: var(--font-family-titles);
+    }
+
+    /* ==========================================================================
+       SECCIÓN 1: EL PRODUCTO
+       ========================================================================== */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .product-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      background: var(--color-surface-subtle);
+    }
+
+    .product-card h4 {
+      color: var(--color-title-numbers);
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .product-card p {
+      font-size: 12px;
+      color: var(--color-text-body);
+    }
+
+    /* ==========================================================================
+       SECCIÓN 2: PRINCIPIOS
+       ========================================================================== */
+    .principles-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .principle-item {
+      border-left: 4px solid var(--color-buttons-tags);
+      background: var(--color-surface-subtle);
+      padding: 12px 14px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+
+    .principle-item strong {
+      display: block;
+      color: var(--color-title-numbers);
+      font-size: 14px;
+      margin-bottom: 4px;
+      font-family: var(--font-family-titles);
+    }
+
+    .principle-item span {
+      font-size: 12px;
+      color: var(--color-text-body);
+    }
+
+    /* ==========================================================================
+       SECCIÓN 3: TOKENS DE DISEÑO (MUESTRAS)
+       ========================================================================== */
+    .tokens-palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+    }
+
+    .tokens-typography {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .token-chip {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--color-surface-card);
+    }
+
+    .token-chip .color-preview {
+      height: 48px;
+      width: 100%;
+    }
+
+    .token-chip .token-info {
+      padding: 8px 10px;
+      background: var(--color-surface-card);
+    }
+
+    .token-chip .token-name {
+      font-weight: bold;
+      font-size: 12px;
+      color: var(--color-title-numbers);
+    }
+
+    .token-chip .token-val {
+      font-size: 11px;
+      color: var(--color-text-body);
+      font-family: monospace;
+    }
+
+    .token-typo-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      background: var(--color-surface-subtle);
+    }
+
+    .token-typo-card .typo-role {
+      font-size: 12px;
+      font-weight: bold;
+      color: var(--color-buttons-tags);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .token-typo-card .typo-preview {
+      font-size: 18px;
+      color: var(--color-title-numbers);
+      margin: 6px 0;
+    }
+
+    .token-typo-card .typo-spec {
+      font-size: 12px;
+      color: var(--color-text-body);
+      font-family: monospace;
+    }
+
+    /* ==========================================================================
+       SECCIÓN 4: ÁTOMOS
+       ========================================================================== */
+    .atomic-box {
+      border: 1px dashed var(--color-border);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      background: var(--color-surface-subtle);
+      margin-bottom: 14px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-buttons-tags);
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-family: var(--font-family-btn);
+      font-weight: var(--font-weight-btn);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.15s ease, outline 0.15s;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.15);
+    }
+
+    .btn-primary:focus-visible {
+      outline: 3px solid var(--color-focus);
+      outline-offset: 2px;
+    }
+
+    .btn-primary:disabled {
+      background-color: var(--color-disabled-bg);
+      color: var(--color-disabled);
+      cursor: not-allowed;
+    }
+
+    .tag-badge {
+      display: inline-block;
+      background-color: var(--color-tag-bg);
+      color: var(--color-buttons-tags);
+      border: 1px solid var(--color-tag-border);
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: var(--font-weight-medium);
+      border-radius: 4px;
+    }
+
+    .tag-badge .cifra-inline {
+      font-family: var(--font-family-numbers);
+      font-weight: bold;
+    }
+
+    .form-select {
+      background-color: var(--color-surface-card);
+      border: 1px solid var(--color-border);
+      color: var(--color-title-numbers);
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: var(--radius-sm);
+      width: 100%;
+      max-width: 320px;
+      font-family: var(--font-family-body);
+    }
+
+    .form-select:focus-visible {
+      outline: 2px solid var(--color-buttons-tags);
+      border-color: var(--color-buttons-tags);
+    }
+
+    .stat-number {
+      font-size: var(--font-size-stat);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-title-numbers);
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      font-family: var(--font-family-numbers);
+    }
+
+    /* Iconos vectoriales de género: trazo outline continuo de alta fidelidad */
+    .icon-gender {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-accent-icons);
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    .icon-gender svg {
+      stroke: var(--color-accent-icons);
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      display: block;
+    }
+
+    /* ==========================================================================
+       SECCIÓN 5: MOLÉCULAS
+       ========================================================================== */
+    .stat-card {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 120px;
+    }
+
+    .stat-card-label {
+      font-size: 12px;
+      color: var(--color-text-body);
+      font-weight: var(--font-weight-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 4px;
+    }
+
+    .stat-card-body {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 4px 0;
+    }
+
+    .stat-card-source {
+      font-size: 10px;
+      color: var(--color-text-body);
+      border-top: 1px solid var(--color-border-subtle);
+      padding-top: 6px;
+      margin-top: 6px;
+      word-break: break-word;
+    }
+
+    .source-ai-line {
+      font-size: 11px;
+      color: var(--color-text-body);
+      border-top: 1px solid var(--color-border);
+      padding-top: 8px;
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       SECCIÓN 6: ORGANISMOS
+       ========================================================================== */
+    .mock-phone-frame {
+      max-width: 390px;
+      margin: 0 auto;
+      border: 10px solid #2b2b30;
+      border-radius: 36px;
+      background: var(--color-background);
+      overflow: hidden;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+      position: relative;
+    }
+
+    .phone-notch {
+      width: 140px;
+      height: 18px;
+      background: #2b2b30;
+      margin: 0 auto;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+
+    .phone-inner-content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .app-header {
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 8px;
+    }
+
+    .app-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .app-header h1 {
+      font-size: 18px;
+      color: var(--color-title-numbers);
+      font-weight: 700;
+    }
+
+    .app-header p {
+      font-size: 12px;
+      color: var(--color-text-body);
+      margin-top: 2px;
+    }
+
+    .two-cards-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .context-block {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .context-block .context-label {
+      font-size: 12px;
+      color: var(--color-text-body);
+    }
+
+    .context-block .context-val {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--color-title-numbers);
+    }
+
+    /* Gráfica de barras móvil deslizable */
+    .bars-carousel-wrapper {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+
+    .carousel-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .carousel-controls h3 {
+      font-size: 13px;
+      color: var(--color-title-numbers);
+      font-weight: 600;
+    }
+
+    .carousel-btn {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border);
+      color: var(--color-accent-icons);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.15s;
+    }
+
+    .carousel-btn:hover {
+      background: var(--color-surface-hover);
+      border-color: var(--color-buttons-tags);
+    }
+
+    .carousel-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .carousel-track-container {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .bars-track {
+      display: flex;
+      gap: 8px;
+      transition: transform 0.3s ease;
+      width: 100%;
+    }
+
+    .bar-column {
+      flex: 0 0 calc((100% - 24px) / 4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      height: 140px;
+      cursor: pointer;
+      padding: 4px 2px;
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .bar-column:hover, .bar-column.selected {
+      background-color: var(--color-bar-active-bg);
+    }
+
+    .bar-column.selected .bar-fill {
+      background-color: var(--color-buttons-tags);
+    }
+
+    .bar-value {
+      font-size: 11px;
+      font-weight: bold;
+      color: var(--color-title-numbers);
+      margin-bottom: 4px;
+      font-family: var(--font-family-numbers);
+    }
+
+    .bar-cylinder {
+      width: 100%;
+      max-width: 28px;
+      height: 100px;
+      background: var(--color-cylinder-bg);
+      border-radius: 4px 4px 0 0;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      width: 100%;
+      background: var(--color-accent-icons);
+      border-radius: 4px 4px 0 0;
+      transition: height 0.4s ease;
+    }
+
+    .bar-code {
+      font-size: 10px;
+      color: var(--color-text-body);
+      margin-top: 6px;
+      font-weight: 600;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      font-family: var(--font-family-body);
+    }
+
+    /* ==========================================================================
+       GRÁFICA DE BARRAS EN ESCRITORIO (16 REGIONES NORTE A SUR)
+       ========================================================================== */
+    .desktop-chart-card {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 16px 14px;
+      margin-bottom: 16px;
+    }
+
+    .desktop-chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .desktop-chart-header h3 {
+      font-size: 13px;
+      font-weight: bold;
+      color: var(--color-title-numbers);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .desktop-chart-legend {
+      font-size: 11px;
+      color: var(--color-text-body);
+    }
+
+    .desktop-bars-container {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 4px;
+      height: 145px;
+      padding: 8px 4px 4px 4px;
+      background: var(--color-surface-subtle);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+
+    .desk-bar-col {
+      flex: 1 1 0;
+      min-width: 24px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      cursor: pointer;
+      padding: 2px;
+      border-radius: 4px;
+      transition: background-color 0.15s;
+    }
+
+    .desk-bar-col:hover {
+      background-color: var(--color-bar-active-bg);
+    }
+
+    .desk-bar-col.active {
+      background-color: var(--color-bar-active-bg);
+    }
+
+    .desk-bar-col.active .desk-bar-inner {
+      background-color: var(--color-buttons-tags);
+    }
+
+    .desk-bar-val {
+      font-size: 9.5px;
+      font-weight: bold;
+      color: var(--color-title-numbers);
+      font-family: var(--font-family-numbers);
+      margin-bottom: 2px;
+      line-height: 1;
+    }
+
+    .desk-bar-cyl {
+      width: 100%;
+      max-width: 18px;
+      height: 90px;
+      background: var(--color-cylinder-bg);
+      border-radius: 3px 3px 0 0;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .desk-bar-inner {
+      width: 100%;
+      background: var(--color-accent-icons);
+      border-radius: 3px 3px 0 0;
+      transition: height 0.3s ease;
+    }
+
+    .desk-bar-code {
+      font-size: 9px;
+      font-weight: bold;
+      color: var(--color-text-body);
+      margin-top: 4px;
+      font-family: var(--font-family-body);
+    }
+
+    .cta-button-container {
+      text-align: center;
+    }
+
+    .cta-button-container .btn-primary {
+      width: 100%;
+    }
+
+    /* ==========================================================================
+       SECCIÓN 7: PLANTILLAS Y PÁGINAS (DESKTOP & MOBILE)
+       ========================================================================== */
+    .dual-viewport-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 860px) {
+      .dual-viewport-grid {
+        grid-template-columns: 375px 1fr;
+      }
+    }
+
+    .desktop-frame {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-background);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .desktop-topbar {
+      background: #2b2b30;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .desktop-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #6b6b70;
+    }
+
+    .desktop-content {
+      padding: 20px;
+    }
+
+    .regions-table-wrap {
+      overflow-x: auto;
+      margin-top: 10px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    .regions-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+      background: var(--color-surface-card);
+    }
+
+    .regions-table th {
+      background: var(--color-surface-hover);
+      color: var(--color-title-numbers);
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--color-border);
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .regions-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      color: var(--color-text-body);
+    }
+
+    .regions-table tr:hover {
+      background: var(--color-surface-hover);
+      cursor: pointer;
+    }
+
+    .regions-table tr.active-row {
+      background: var(--color-bar-active-bg);
+    }
+
+    .table-cifra {
+      font-family: var(--font-family-numbers);
+      font-weight: bold;
+      color: var(--color-title-numbers);
+    }
+
+    /* ==========================================================================
+       SECCIÓN 8: ESTADOS
+       ========================================================================== */
+    .states-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .state-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      background: var(--color-surface-card);
+      font-size: 12px;
+    }
+
+    .state-card.loading-card {
+      background: linear-gradient(90deg, var(--color-surface-subtle) 25%, var(--color-surface-hover) 50%, var(--color-surface-subtle) 75%);
+      background-size: 200% 100%;
+      animation: skeleton-load 1.4s infinite;
+    }
+
+    @keyframes skeleton-load {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ==========================================================================
+       SECCIÓN 9: DATOS Y VOZ
+       ========================================================================== */
+    .voice-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .voice-table td, .voice-table th {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--color-border);
+      text-align: left;
+    }
+
+    .voice-table th {
+      background: var(--color-surface-subtle);
+      color: var(--color-title-numbers);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       SECCIÓN 10: ACCESIBILIDAD E IA
+       ========================================================================== */
+    .a11y-pill {
+      display: inline-block;
+      padding: 3px 8px;
+      background: #eef9ee;
+      color: #1f6b21;
+      border: 1px solid #ccebcc;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: bold;
+      margin-right: 6px;
+    }
+
+    body.dark-mode .a11y-pill {
+      background: #14351a;
+      color: #72e277;
+      border-color: #24592a;
+    }
+
+    /* MOCKUP COMPARATIVO MODO OSCURO EN PLANTILLAS (SECCIÓN 7) */
+    .theme-comparison-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .theme-comparison-card.card-light {
+      background: #ffffff;
+      color: #16161a;
+    }
+
+    .theme-comparison-card.card-dark {
+      background: #121214;
+      color: #f4f4f6;
+      border-color: #2e2e38;
+    }
+  </style>
+</head>
+<body class="dark-mode">
+<!-- Barra de Navegación del Sistema -->
+<header class="top-system-nav" role="banner">
+<div class="nav-brand">
+<svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20">
+<path d="M3 3v18h18"></path>
+<path d="M18 17V9"></path>
+<path d="M13 17V5"></path>
+<path d="M8 17v-3"></path>
+</svg>
+<span class="">INE • Observatorio de Empleo (DESIGN SYSTEM)</span>
+</div>
+<div class="nav-right-actions">
+<button aria-label="Cambiar tema claro u oscuro" class="theme-toggle-btn" id="global-theme-toggle" type="button">
+<span class="toggle-icon" id="theme-toggle-icon">☀️</span>
+<span id="theme-toggle-label" class="">Modo Claro</span>
+</button>
+<nav aria-label="Secciones del sistema de diseño" class="nav-tabs">
+<a class="nav-tab-btn" href="#sec-original-references">Referencias y Boceto</a><a class="nav-tab-btn active" href="#sec-interactive-app">Aplicación Interactiva</a>
+<a class="nav-tab-btn" href="#sec-1">1. El Producto</a>
+<a class="nav-tab-btn" href="#sec-2">2. Principios</a>
+<a class="nav-tab-btn" href="#sec-3">3. Tokens</a>
+<a class="nav-tab-btn" href="#sec-4">4. Átomos</a>
+<a class="nav-tab-btn" href="#sec-5">5. Moléculas</a>
+<a class="nav-tab-btn" href="#sec-6">6. Organismos</a>
+<a class="nav-tab-btn" href="#sec-7">7. Plantillas/Páginas</a>
+<a class="nav-tab-btn" href="#sec-8">8. Estados</a>
+<a class="nav-tab-btn" href="#sec-9">9. Datos y Voz</a>
+<a class="nav-tab-btn" href="#sec-10">10. Accesibilidad e IA</a>
+</nav>
+</div>
+</header>
+<main class="container" id="main-content">
+<!-- ====================================================================
+         APLICACIÓN INTERACTIVA (EN BASE AL BOCETO Y DATOS REALES)
+         ==================================================================== -->
+<section aria-labelledby="sec-ref-title" class="section-block" id="sec-original-references">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
+    <h2 class="section-title" id="sec-ref-title" style="margin-bottom: 0px;">
+      <span class="badge-num">REF</span>
+      Material de Referencia Inicial: Apuntes y Boceto Original
+    </h2>
+    <span class="tag-badge">Documentación Base</span>
+  </div>
+  <p class="section-desc">
+    Archivos y requerimientos manuscritos originales que sirvieron como especificación funcional y wireframe inicial para la construcción del sistema de diseño, la jerarquía visual de los datos del INE y la interfaz interactiva.
+  </p>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; align-items: start;">
+    <!-- Tarjeta Imagen 1: 8 Casillas del Producto -->
+    <div class="product-card" style="display: flex; flex-direction: column; background: var(--color-surface-card); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 18px; box-shadow: var(--shadow-sm);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--color-border-subtle); padding-bottom: 8px;">
+        <h3 style="font-size: 14px; font-weight: bold; color: var(--color-title-numbers); font-family: var(--font-family-titles); margin: 0px;" class="">
+          1. Definición de las 8 Casillas del Producto
+        </h3>
+        <span style="font-size: 11px; color: var(--color-text-body); font-family: monospace;" class="">8 casillas del producto.jpeg</span>
+      </div>
+      <div style="display: flex; justify-content: center; align-items: center; background: var(--color-surface-subtle); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-sm); padding: 12px; min-height: 380px;">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjDU3k7ZzwOCiYCYFOoRnLOeJCu9xqZEFRgtyggRxHuhIekttwOkJoIw0wd0ySOv_0PYwrT6LbZYi9aXuVUJIu-7f_ppdvXGjad46AecGD1eOTN_yk7t9ryPSSjMkB5EwZfexjW62cSgCZP207Jj6FxWZywONVYfMyZw7csdaePkm5eDFwB8Aw-nIdp354SANjM26rZqKN37VN0H0eoWoAjVQ7Jdki-W5Osg9UHxsPfbwlKEKUKfp9" alt="Apuntes manuscritos de las 8 casillas del producto INE" style="max-height: 480px; width: 100%; object-fit: contain; border-radius: 4px; display: block; box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 8px;" class="">
+      </div>
+      <div style="margin-top: 12px; font-size: 12px; color: var(--color-text-body); line-height: 1.5;" class="">
+        <strong style="color: var(--color-title-numbers); display: block; margin-bottom: 2px;">Especificación funcional:</strong>
+        Detalle manuscrito de los 8 requerimientos nucleares: persona desempleada regional, impacto, analista/resumen boletines INE/ENE, porcentaje y género, gráfica de 4 barras (4/4/4/4), botón a nota oficial, resumen asistido por IA corroborado y declaración de fuentes oficiales.
+      </div>
+    </div>
+    <!-- Tarjeta Imagen 2: Boceto Original a Mano -->
+    <div class="product-card" style="display: flex; flex-direction: column; background: var(--color-surface-card); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 18px; box-shadow: var(--shadow-sm);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--color-border-subtle); padding-bottom: 8px;">
+        <h3 style="font-size: 14px; font-weight: bold; color: var(--color-title-numbers); font-family: var(--font-family-titles); margin: 0px;" class="">
+          2. Boceto Wireframe Original a Mano
+        </h3>
+        <span style="font-size: 11px; color: var(--color-text-body); font-family: monospace;" class="">Boceto producto.jpeg</span>
+      </div>
+      <div style="display: flex; justify-content: center; align-items: center; background: var(--color-surface-subtle); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-sm); padding: 12px; min-height: 380px;">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5BanPDjkqH2V7rKG-VE8NcO9WpSTY4DCTcxP0Aa80pUzJxq3HEeJ9a853JTpVgV_bxbj-EyJWNtCKwLfTMnrLtyLexooH63Lqsm0rabwYRG3KeprGYS-ad0tVhSWEwpE1-WyVq2veapAqI_hS5ibjfJBuQ8yTAvrraBxeshcCF51yOexfwz_ACuFwv_8rUO3-hIokYP3UqoMFWxijie7HQ5gdDhboMyu0D5h32giqwOUrAJkNf2vJ" alt="Boceto original a mano alzada del Observatorio de Empleo" style="max-height: 480px; width: 100%; object-fit: contain; border-radius: 4px; display: block; box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 8px;" class="">
+      </div>
+      <div style="margin-top: 12px; font-size: 12px; color: var(--color-text-body); line-height: 1.5;" class="">
+        <strong style="color: var(--color-title-numbers); display: block; margin-bottom: 2px;">Disposición de pantalla móvil:</strong>
+        Wireframe conceptual con título "Observatorio de Empleo", las dos tarjetas de indicadores (tasa regional y género con silueta outline), variación previa en pp, carrusel de 4 barras comparativas, CTA 'Nota completa aquí' y acreditación INE + Agente IA.
+      </div>
+    </div>
+  </div>
+</section><section aria-labelledby="app-title" class="section-block" id="sec-interactive-app">
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
+<h2 class="section-title" id="app-title" style="margin-bottom: 0px;">
+<span class="badge-num">APP</span>
+    Pantalla Interactiva en Teléfono (Fiel al Boceto y Datos Reales)
+  </h2>
+<!-- Interruptor directo en la demo -->
+<button aria-label="Alternar modo de pantalla" class="theme-toggle-btn" id="demo-theme-toggle" style="background: var(--color-surface-hover); color: var(--color-title-numbers); border-color: var(--color-border);" type="button">
+<span class="toggle-icon">🌓</span>
+<span id="demo-toggle-label" class="">Cambiar a Modo Claro</span>
+</button>
+</div>
+<p class="section-desc">
+  Cumple estrictamente con la estructura del boceto manual: título general, título plantilla, 2 tarjetas de cifras con fuente, bloque de contexto con variación pp, gráfica de barras deslizable de 4 barras (16 regiones ordenadas de Norte a Sur), botón a nota y declaración de fuente INE con uso de IA. Cuenta con iconos vectoriales outline continuos (fieles a la referencia estándar) y soporte completo e interactivo para Modo Claro y Modo Oscuro.
+</p>
+<div class="dual-viewport-grid">
+<!-- Teléfono Interactivo -->
+<div>
+<div aria-label="Vista previa de teléfono" class="mock-phone-frame" role="region">
+<div aria-hidden="true" class="phone-notch"></div>
+<div class="phone-inner-content">
+<!-- Cabecera -->
+<div class="app-header">
+<div class="app-header-row">
+<div>
+<h1 class="">Observatorio de Empleo</h1>
+<p class="">Tasa de desocupación regional trimestre junio - agosto 2026</p>
+</div>
+<button class="theme-toggle-btn" id="phone-theme-toggle" style="padding: 3px 8px; font-size: 10px; border-radius: 12px; background: var(--color-tag-bg); color: var(--color-buttons-tags); border-color: var(--color-tag-border);" title="Alternar tema en teléfono">
+<span id="phone-toggle-icon" class="">☀️</span>
+</button>
+</div>
+<div style="margin-top: 8px;">
+<label class="" for="select-region-phone" style="font-size: 11px; font-weight: bold; color: var(--color-title-numbers); display: block; margin-bottom: 2px;">
+  Seleccionar región:
+</label>
+<select aria-label="Región seleccionada" class="form-select" id="select-region-phone" style="font-size: 12px; padding: 6px;"><option value="0">1. Arica y Parinacota (9,4%)</option><option value="1">2. Tarapacá (7,8%)</option><option value="2">3. Antofagasta (6,3%)</option><option value="3">4. Atacama (9,5%)</option><option value="4">5. Coquimbo (9,4%)</option><option value="5">6. Valparaíso (10,2%)</option><option value="6">7. Metropolitana (9,8%)</option><option value="7">8. O'Higgins (10,8%)</option><option value="8">9. Maule (9,5%)</option><option value="9">10. Ñuble (11,2%)</option><option value="10">11. Biobío (10,7%)</option><option value="11">12. La Araucanía (10,1%)</option><option value="12">13. Los Ríos (10,2%)</option><option value="13">14. Los Lagos (7,8%)</option><option value="14">15. Aysén (4,0%)</option><option value="15">16. Magallanes (6,9%)</option></select>
+</div>
+</div>
+<!-- Dos tarjetas de cifras (Tipografía Cambria para cifras) -->
+<div class="two-cards-row">
+<!-- Tarjeta 1: Desocupación Regional -->
+<div class="stat-card" id="card-region-stat">
+<div>
+<div class="stat-card-label" id="card-reg-name">Metropolitana</div>
+<div class="stat-card-body">
+<span class="stat-number" id="card-reg-rate">9,8%</span>
+</div>
+</div>
+<div class="stat-card-source" id="card-reg-source">INE, Boletín estadístico: empleo trimestral, región Metropolitana de Santiago, edición n° 123, 30 de septiembre de 2026</div>
+</div>
+<!-- Tarjeta 2: Género más afectado con icono fiel y nítido a la referencia (outline continuo redondeado) -->
+<div class="stat-card" id="card-gender-stat">
+<div>
+<div class="stat-card-label">Género más afectado</div>
+<div class="stat-card-body">
+<span aria-hidden="true" class="icon-gender" id="card-gender-icon" style="width: 36px; height: 36px;">
+        <svg viewBox="0 0 100 100" width="34" height="34" stroke="currentColor" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="50" cy="20" r="13"></circle>
+          <path d="M36 46 C36 40, 42 38, 50 38 C58 38, 64 40, 64 46 L76 74 C78 78, 72 80, 68 80 L60 80 L60 92 C60 96, 52 96, 52 92 L52 80 L48 80 L48 92 C48 96, 40 96, 40 92 L40 80 L32 80 C28 80, 22 78, 24 74 Z"></path>
+        </svg>
+      </span>
+<span class="stat-number" id="card-gender-rate">10,2%</span>
+</div>
+<div class="" id="card-gender-label" style="font-size: 11px; font-weight: bold; color: var(--color-buttons-tags);">Mujeres</div>
+</div>
+<div class="stat-card-source" id="card-gender-source">INE, Boletín estadístico: empleo trimestral, región Metropolitana de Santiago, edición n° 123, 30 de septiembre de 2026</div>
+</div>
+</div>
+<!-- Contexto: Variación con el trimestre anterior -->
+<div class="context-block">
+<div>
+<span class="context-label">Variación con el trimestre anterior:</span>
+<div class="" id="context-informalidad-label" style="font-size: 11px; color: var(--color-text-body);">Tasa de informalidad regional: <span style="font-family: var(--font-family-numbers); font-weight: bold;" class="">23,4%</span></div>
+</div>
+<div class="context-val" id="card-reg-var" style="font-size: 16px;">+0,9 pp</div>
+</div>
+<!-- Gráfica de barras deslizable (4 barras visibles a la vez de 16 regiones ordenadas N a S) -->
+<div aria-label="Gráfica de barras deslizable" class="bars-carousel-wrapper">
+<div class="carousel-controls">
+<h3 class="">Gráfica desocupación comparativa</h3>
+<div style="display: flex; gap: 4px;">
+<button aria-label="Ver 4 regiones anteriores" class="carousel-btn" id="btn-carousel-prev">◀</button>
+<button aria-label="Ver 4 regiones siguientes" class="carousel-btn" id="btn-carousel-next">▶</button>
+</div>
+</div>
+<div class="" style="font-size: 10px; color: var(--color-text-body); margin-bottom: 8px;">
+  Mostrando <span class="" id="carousel-indicator">5 - 8</span> de 16 regiones de Norte a Sur (toca una barra para seleccionarla):
+</div>
+<div class="carousel-track-container" style="overflow: hidden; width: 100%; max-width: 100%; margin: 0px auto; display: block;">
+<div aria-label="Barras de tasas de desocupación" class="bars-track" id="bars-track" role="list" style="display: flex; gap: 8px; transition: transform 0.3s; width: 100%; transform: translateX(-100%); justify-content: flex-start;"><div class="bar-column" id="bar-col-0" role="listitem" aria-label="Arica y Parinacota: 9,4%">
+          <span class="bar-value">9,4%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 78%;"></div>
+          </div>
+          <span class="bar-code">AP</span>
+        </div><div class="bar-column " id="bar-col-1" role="listitem" aria-label="Tarapacá: 7,8%">
+          <span class="bar-value">7,8%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 65%;"></div>
+          </div>
+          <span class="bar-code">TA</span>
+        </div><div class="bar-column " id="bar-col-2" role="listitem" aria-label="Antofagasta: 6,3%">
+          <span class="bar-value">6,3%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 53%;"></div>
+          </div>
+          <span class="bar-code">AN</span>
+        </div><div class="bar-column " id="bar-col-3" role="listitem" aria-label="Atacama: 9,5%">
+          <span class="bar-value">9,5%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 79%;"></div>
+          </div>
+          <span class="bar-code">AT</span>
+        </div><div class="bar-column " id="bar-col-4" role="listitem" aria-label="Coquimbo: 9,4%">
+          <span class="bar-value">9,4%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 78%;"></div>
+          </div>
+          <span class="bar-code">CO</span>
+        </div><div class="bar-column " id="bar-col-5" role="listitem" aria-label="Valparaíso: 10,2%">
+          <span class="bar-value">10,2%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 85%;"></div>
+          </div>
+          <span class="bar-code">VS</span>
+        </div><div class="bar-column selected" id="bar-col-6" role="listitem" aria-label="Metropolitana: 9,8%">
+          <span class="bar-value">9,8%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 82%;"></div>
+          </div>
+          <span class="bar-code">RM</span>
+        </div><div class="bar-column " id="bar-col-7" role="listitem" aria-label="O'Higgins: 10,8%">
+          <span class="bar-value">10,8%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 90%;"></div>
+          </div>
+          <span class="bar-code">LI</span>
+        </div><div class="bar-column " id="bar-col-8" role="listitem" aria-label="Maule: 9,5%">
+          <span class="bar-value">9,5%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 79%;"></div>
+          </div>
+          <span class="bar-code">ML</span>
+        </div><div class="bar-column " id="bar-col-9" role="listitem" aria-label="Ñuble: 11,2%">
+          <span class="bar-value">11,2%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 93%;"></div>
+          </div>
+          <span class="bar-code">NB</span>
+        </div><div class="bar-column " id="bar-col-10" role="listitem" aria-label="Biobío: 10,7%">
+          <span class="bar-value">10,7%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 89%;"></div>
+          </div>
+          <span class="bar-code">BI</span>
+        </div><div class="bar-column " id="bar-col-11" role="listitem" aria-label="La Araucanía: 10,1%">
+          <span class="bar-value">10,1%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 84%;"></div>
+          </div>
+          <span class="bar-code">AR</span>
+        </div><div class="bar-column " id="bar-col-12" role="listitem" aria-label="Los Ríos: 10,2%">
+          <span class="bar-value">10,2%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 85%;"></div>
+          </div>
+          <span class="bar-code">LR</span>
+        </div><div class="bar-column " id="bar-col-13" role="listitem" aria-label="Los Lagos: 7,8%">
+          <span class="bar-value">7,8%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 65%;"></div>
+          </div>
+          <span class="bar-code">LL</span>
+        </div><div class="bar-column " id="bar-col-14" role="listitem" aria-label="Aysén: 4,0%">
+          <span class="bar-value">4,0%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 33%;"></div>
+          </div>
+          <span class="bar-code">AI</span>
+        </div><div class="bar-column " id="bar-col-15" role="listitem" aria-label="Magallanes: 6,9%">
+          <span class="bar-value">6,9%</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: 58%;"></div>
+          </div>
+          <span class="bar-code">MA</span>
+        </div></div>
+</div>
+</div>
+<!-- Botón: Nota completa aquí -->
+<div class="cta-button-container">
+<a aria-label="Nota completa de la región Metropolitana" class="btn-primary" href="https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/boletines/2026/rm/ene-rm-123.pdf" id="btn-nota-completa" rel="noopener noreferrer" target="_blank">
+  Nota completa aquí
+</a>
+</div>
+<!-- Declaración fuente y uso de IA -->
+<footer class="source-ai-line">
+<p class=""><strong>Fuente:</strong> <span class="" id="footer-source-text">INE, Boletín estadístico: empleo trimestral, región Metropolitana de Santiago, edición n° 123, 30 de septiembre de 2026. Serie nacional: Boletín ENE n° 335.</span></p>
+<p class="" style="margin-top: 4px;"><strong>Redactado por agente IA · Aprobado por:</strong> Equipo de Estudios del Observatorio de Empleo.</p>
+</footer>
+</div>
+</div>
+</div>
+<!-- Panel Lateral Informativo / Vista Escritorio Adaptada con Gráfica de 16 Barras -->
+<div>
+<div class="desktop-frame">
+<div class="desktop-topbar">
+<span class="desktop-dot"></span>
+<span class="desktop-dot"></span>
+<span class="desktop-dot"></span>
+<span class="" style="color: rgb(255, 255, 255); font-size: 11px; margin-left: 8px; font-family: var(--font-family-body);">Vista Escritorio - Observatorio de Empleo INE (Orden Norte a Sur)</span>
+</div>
+<div class="desktop-content">
+<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+<div>
+<h2 class="" style="font-size: 19px; color: var(--color-title-numbers);">Datos Comparativos Nacionales</h2>
+<p class="" style="font-size: 12px; color: var(--color-text-body);">Boletín ENE n.º 335 (Publicación: 30-09-2026) · 16 regiones orden territorial Norte a Sur</p>
+</div>
+<div>
+<span class="tag-badge">Nacional: <strong class="cifra-inline" style="font-family: var(--font-family-numbers);">9,6%</strong> (+1,0 pp)</span>
+</div>
+</div>
+<!-- Gráfica de Barras Interactiva en Escritorio (16 Regiones de Norte a Sur) -->
+<div class="desktop-chart-card">
+<div class="desktop-chart-header">
+<h3 class="">
+<svg fill="none" height="15" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="15">
+<path d="M18 20V10"></path>
+<path d="M12 20V4"></path>
+<path d="M6 20v-6"></path>
+</svg>
+  Tasa de Desocupación por Región (16 Regiones Norte a Sur)
+</h3>
+<span class="desktop-chart-legend">Haz clic para sincronizar</span>
+</div>
+<div aria-label="Gráfica de 16 regiones en escritorio" class="desktop-bars-container" id="desktop-bars-container" role="list"><div class="desk-bar-col" id="desk-bar-0" role="listitem" title="1. Arica y Parinacota: 9,4%">
+          <span class="desk-bar-val">9,4%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 78%;"></div>
+          </div>
+          <span class="desk-bar-code">AP</span>
+        </div><div class="desk-bar-col " id="desk-bar-1" role="listitem" title="2. Tarapacá: 7,8%">
+          <span class="desk-bar-val">7,8%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 65%;"></div>
+          </div>
+          <span class="desk-bar-code">TA</span>
+        </div><div class="desk-bar-col " id="desk-bar-2" role="listitem" title="3. Antofagasta: 6,3%">
+          <span class="desk-bar-val">6,3%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 53%;"></div>
+          </div>
+          <span class="desk-bar-code">AN</span>
+        </div><div class="desk-bar-col " id="desk-bar-3" role="listitem" title="4. Atacama: 9,5%">
+          <span class="desk-bar-val">9,5%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 79%;"></div>
+          </div>
+          <span class="desk-bar-code">AT</span>
+        </div><div class="desk-bar-col " id="desk-bar-4" role="listitem" title="5. Coquimbo: 9,4%">
+          <span class="desk-bar-val">9,4%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 78%;"></div>
+          </div>
+          <span class="desk-bar-code">CO</span>
+        </div><div class="desk-bar-col " id="desk-bar-5" role="listitem" title="6. Valparaíso: 10,2%">
+          <span class="desk-bar-val">10,2%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 85%;"></div>
+          </div>
+          <span class="desk-bar-code">VS</span>
+        </div><div class="desk-bar-col active" id="desk-bar-6" role="listitem" title="7. Metropolitana: 9,8%">
+          <span class="desk-bar-val">9,8%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 82%;"></div>
+          </div>
+          <span class="desk-bar-code">RM</span>
+        </div><div class="desk-bar-col " id="desk-bar-7" role="listitem" title="8. O'Higgins: 10,8%">
+          <span class="desk-bar-val">10,8%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 90%;"></div>
+          </div>
+          <span class="desk-bar-code">LI</span>
+        </div><div class="desk-bar-col " id="desk-bar-8" role="listitem" title="9. Maule: 9,5%">
+          <span class="desk-bar-val">9,5%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 79%;"></div>
+          </div>
+          <span class="desk-bar-code">ML</span>
+        </div><div class="desk-bar-col " id="desk-bar-9" role="listitem" title="10. Ñuble: 11,2%">
+          <span class="desk-bar-val">11,2%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 93%;"></div>
+          </div>
+          <span class="desk-bar-code">NB</span>
+        </div><div class="desk-bar-col " id="desk-bar-10" role="listitem" title="11. Biobío: 10,7%">
+          <span class="desk-bar-val">10,7%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 89%;"></div>
+          </div>
+          <span class="desk-bar-code">BI</span>
+        </div><div class="desk-bar-col " id="desk-bar-11" role="listitem" title="12. La Araucanía: 10,1%">
+          <span class="desk-bar-val">10,1%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 84%;"></div>
+          </div>
+          <span class="desk-bar-code">AR</span>
+        </div><div class="desk-bar-col " id="desk-bar-12" role="listitem" title="13. Los Ríos: 10,2%">
+          <span class="desk-bar-val">10,2%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 85%;"></div>
+          </div>
+          <span class="desk-bar-code">LR</span>
+        </div><div class="desk-bar-col " id="desk-bar-13" role="listitem" title="14. Los Lagos: 7,8%">
+          <span class="desk-bar-val">7,8%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 65%;"></div>
+          </div>
+          <span class="desk-bar-code">LL</span>
+        </div><div class="desk-bar-col " id="desk-bar-14" role="listitem" title="15. Aysén: 4,0%">
+          <span class="desk-bar-val">4,0%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 33%;"></div>
+          </div>
+          <span class="desk-bar-code">AI</span>
+        </div><div class="desk-bar-col " id="desk-bar-15" role="listitem" title="16. Magallanes: 6,9%">
+          <span class="desk-bar-val">6,9%</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: 58%;"></div>
+          </div>
+          <span class="desk-bar-code">MA</span>
+        </div></div>
+</div>
+<p class="" style="font-size: 12px; margin-bottom: 8px; color: var(--color-text-body);">
+  Tabla de indicadores regionales con fuentes oficiales del INE (selecciona cualquier fila):
+</p>
+<!-- Tabla de regiones de Norte a Sur -->
+<div class="regions-table-wrap">
+<table class="regions-table" id="table-regions-desktop">
+<thead>
+<tr>
+<th class="">Cód.</th>
+<th class="">Región</th>
+<th class="">Tasa</th>
+<th class="">Var. pp</th>
+<th class="">Mujeres</th>
+<th class="">Hombres</th>
+<th class="">Informalidad</th>
+<th class="">Boletín</th>
+</tr>
+</thead>
+<tbody><tr id="desktop-row-0" class="">
+          <td class=""><strong>AP</strong></td>
+          <td class="">Arica y Parinacota</td>
+          <td class=""><span class="table-cifra">9,4%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+2,7 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">8,4%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">10,2%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">31,6%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-xv/estadisticas/ocupacion-y-desocupacion/boletines/2026/encuesta-nacional-de-empleo---ene-periodo-junio---agosto-2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-1">
+          <td class=""><strong>TA</strong></td>
+          <td class="">Tarapacá</td>
+          <td class=""><span class="table-cifra">7,8%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+0,8 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">8,2%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">7,5%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">30,6%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-i/estadisticas/ocupacion-y-desocupacion/boletines/2026/informe-de-empleo-junio---agosto-2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-2">
+          <td class=""><strong>AN</strong></td>
+          <td class="">Antofagasta</td>
+          <td class=""><span class="table-cifra">6,3%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">-0,4 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">7,5%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">5,5%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">20,9%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-ii/estadistica/ocupacion-y-desocupacion/boletines/2026/empleo-trimestre-m%c3%b3vil-junio---agosto-2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-3">
+          <td class=""><strong>AT</strong></td>
+          <td class="">Atacama</td>
+          <td class=""><span class="table-cifra">9,5%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+0,2 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">10,7%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">8,5%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">27,9%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-iii/estadisticas/ocupacion-y-desocupacion/boletines/2026/ene---per%c3%adodo-junio---agosto-2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-4">
+          <td class=""><strong>CO</strong></td>
+          <td class="">Coquimbo</td>
+          <td class=""><span class="table-cifra">9,4%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+1,8 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">9,8%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">9,0%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">28,1%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-iv/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-empleo-junio---agosto-2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-5">
+          <td class=""><strong>VS</strong></td>
+          <td class="">Valparaíso</td>
+          <td class=""><span class="table-cifra">10,2%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+1,4 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">11,4%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">9,3%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">28,6%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-v/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-empleo-regional-trimestre-m%c3%b3vil-junio---agosto-2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-6" class="active-row">
+          <td class=""><strong>RM</strong></td>
+          <td class="">Metropolitana</td>
+          <td class=""><span class="table-cifra">9,8%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+0,9 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">10,2%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">9,4%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">23,4%</span></td>
+          <td class="">
+            <a href="https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/boletines/2026/rm/ene-rm-123.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-7">
+          <td class=""><strong>LI</strong></td>
+          <td class="">O'Higgins</td>
+          <td class=""><span class="table-cifra">10,8%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+2,2 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">13,2%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">9,1%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">29,4%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-vi/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-regional-trimestre-m%c3%b3vil-junio-2026---julio-2026---agosto-2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-8">
+          <td class=""><strong>ML</strong></td>
+          <td class="">Maule</td>
+          <td class=""><span class="table-cifra">9,5%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+1,6 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">10,7%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">8,5%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">30,6%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-vii/estadisticas/ocupacion-y-desocupacion/boletines/2026/informe-empleo-junio-agosto-2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-9">
+          <td class=""><strong>NB</strong></td>
+          <td class="">Ñuble</td>
+          <td class=""><span class="table-cifra">11,2%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+1,1 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">12,0%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">10,5%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">32,2%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-xvi/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-empleo-regional-trimestre-m%c3%b3vil-junio---agosto-2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-10">
+          <td class=""><strong>BI</strong></td>
+          <td class="">Biobío</td>
+          <td class=""><span class="table-cifra">10,7%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+0,8 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">11,1%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">10,3%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">27,9%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.cl/documentos/default-source/region-viii/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-empleo-biob%c3%ado-trimestre-m%c3%b3vil-junio-agosto-2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-11">
+          <td class=""><strong>AR</strong></td>
+          <td class="">La Araucanía</td>
+          <td class=""><span class="table-cifra">10,1%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+0,8 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">10,5%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">9,8%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">33,3%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-ix/estadisticas/ocupacion-y-desocupacion/boletines/2026/boletin-empleo-jja2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-12">
+          <td class=""><strong>LR</strong></td>
+          <td class="">Los Ríos</td>
+          <td class=""><span class="table-cifra">10,2%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+1,1 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">10,6%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">9,9%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">32,3%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-xiv/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-empleo-trimestre-m%c3%b3vil-junio---agosto-2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-13">
+          <td class=""><strong>LL</strong></td>
+          <td class="">Los Lagos</td>
+          <td class=""><span class="table-cifra">7,8%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+2,8 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">7,9%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">7,7%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">26,4%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-x/estadisticas/ocupacion-y-desocupacion/boletines/2026/ene---periodo-junio---agosto-2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-14">
+          <td class=""><strong>AI</strong></td>
+          <td class="">Aysén</td>
+          <td class=""><span class="table-cifra">4,0%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">-0,3 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">4,0%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">4,0%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">27,5%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-xi/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-empleo-regi%c3%b3n-de-ays%c3%a9n-trimestre-m%c3%b3vil-junio---agosto-2026.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr><tr id="desktop-row-15">
+          <td class=""><strong>MA</strong></td>
+          <td class="">Magallanes</td>
+          <td class=""><span class="table-cifra">6,9%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">+0,7 pp</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">7,9%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">6,1%</span></td>
+          <td class=""><span class="table-cifra" style="font-weight: normal;">20,9%</span></td>
+          <td class="">
+            <a href="https://regiones.ine.gob.cl/documentos/default-source/region-xii/estadisticas/ocupacion-y-desocupacion/boletines/2026/emp_jja_2026_(3-0).pdf" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;" class="">
+              Ver PDF
+            </a>
+          </td>
+        </tr></tbody>
+</table>
+</div>
+<div style="margin-top: 12px; font-size: 11px; color: var(--color-text-body); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+<span class=""><strong>Serie Excel Oficial:</strong>
+<a class="" href="https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/indicadores_principales_reg_sex.xlsx" rel="noopener noreferrer" style="color: var(--color-buttons-tags); text-decoration: underline;" target="_blank">
+  indicadores_principales_reg_sex.xlsx
+</a>
+</span>
+<span class="" style="font-size: 10px; color: var(--color-text-body);">Tipografía de cifras: <strong>Cambria</strong></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ====================================================================
+         SECCIÓN 1: EL PRODUCTO
+         ==================================================================== -->
+<section aria-labelledby="s1-title" class="section-block" id="sec-1">
+<h2 class="section-title" id="s1-title">
+<span class="badge-num">1</span>
+El Producto: Las Ocho Casillas del Lienzo y Boceto
+</h2>
+<p class="section-desc">
+  Estructuración en ocho casillas funcionales correspondientes a los componentes del boceto móvil adjunto.
+</p>
+<div class="product-grid">
+<div class="product-card">
+<h4 class="">1. Para quién</h4>
+<p class="">Una persona desempleada o interesada en la realidad laboral en cualquier región de Chile.</p>
+</div>
+<div class="product-card">
+<h4 class="">2. Su problema</h4>
+<p class="">Comprender de forma clara, directa y regionalizada cómo afecta la desocupación en su zona y entorno cercano.</p>
+</div>
+<div class="product-card">
+<h4 class="">3. En cinco segundos</h4>
+<p class="">Producto de análisis y resumen de los boletines oficiales INE/ENE de forma fácil, gráfica e interactiva.</p>
+</div>
+<div class="product-card">
+<h4 class="">4. La primera pantalla</h4>
+<p class="">Porcentaje de desocupación en la región establecida, variación con el trimestre anterior y porcentaje de género más afectado.</p>
+</div>
+<div class="product-card">
+<h4 class="">5. Lo que puede hacer</h4>
+<p class="">Cambiar la región consultada, revisar gráfica comparativa deslizable de 4 en 4 (16 regiones) y acceder al boletín oficial.</p>
+</div>
+<div class="product-card">
+<h4 class="">6. Lo que hace el agente</h4>
+<p class="">La máquina resume la información del Boletín del INE; el equipo humano corrobora dicha información antes de su publicación.</p>
+</div>
+<div class="product-card">
+<h4 class="">7. Lo que no promete</h4>
+<p class="">No hace interpretaciones subjetivas ni opiniones, solo sintetiza y expone estrictamente los datos oficiales entregados.&nbsp;</p>
+</div>
+<div class="product-card">
+<h4 class="">8. Por qué confiar</h4>
+<p class="">Cuenta con enlace directo a cada boletín INE oficial que confirma las cifras y declaración de uso de IA transparente.</p>
+</div>
+</div>
+</section>
+<!-- ====================================================================
+         SECCIÓN 2: PRINCIPIOS
+         ==================================================================== -->
+<section aria-labelledby="s2-title" class="section-block" id="sec-2">
+<h2 class="section-title" id="s2-title">
+<span class="badge-num">2</span>
+Principios de Diseño
+</h2>
+<p class="section-desc">
+  Reglas no negociables para el tratamiento visual y editorial de la información estadística del INE.
+</p>
+<ul class="principles-list">
+<li class="principle-item">
+<strong>1. Toda cifra con su fuente</strong>
+<span class="">Ningún dato numérico se despliega sin indicar la edición del boletín del INE y la fecha de publicación.</span>
+</li>
+<li class="principle-item">
+<strong>2. Respeta las cifras del documento</strong>
+<span class="">Los datos se conservan en su valor textual oficial, sin redondeos arbitrarios ni truncamientos.</span>
+</li>
+<li class="principle-item">
+<strong>3. No inventes datos</strong>
+<span class="">Se utilizan estrictamente los datos proporcionados para las 16 regiones en secuencia geográfica de Norte a Sur.</span>
+</li>
+<li class="principle-item">
+<strong>4. No interpretes los datos</strong>
+<span class="">Presentación sobria sin calificaciones adjetivales como "alarmante", "positivo" o "crítico".</span>
+</li>
+</ul>
+</section>
+<!-- ====================================================================
+         SECCIÓN 3: TOKENS DE DISEÑO
+         ==================================================================== -->
+<section aria-labelledby="s3-title" class="section-block" id="sec-3">
+<h2 class="section-title" id="s3-title">
+<span class="badge-num">3</span>
+Tokens de Diseño (Modo Claro vs Modo Oscuro)
+</h2>
+<p class="section-desc">
+  Definición estricta de variables cromáticas duales y tokens de tipografía aplicados rigurosamente en toda la aplicación. Se especifica formalmente que tanto TÍTULOS como CIFRAS ESTADÍSTICAS se expresan en Cambria.
+</p>
+<div class="subhead">A. Tokens Cromáticos - Modo Claro (Default)</div>
+<div class="tokens-palette">
+<div class="token-chip">
+<div class="color-preview" style="background: #16161a;"></div>
+<div class="token-info">
+<div class="token-name">Título y cifras</div>
+<div class="token-val">#16161a (Ratio 15.8:1)</div>
+</div>
+</div>
+<div class="token-chip">
+<div class="color-preview" style="background: #f6f6f7; border-bottom: 1px solid #ddd;"></div>
+<div class="token-info">
+<div class="token-name">Fondo base</div>
+<div class="token-val">#f6f6f7</div>
+</div>
+</div>
+<div class="token-chip">
+<div class="color-preview" style="background: #6b6b70;"></div>
+<div class="token-info">
+<div class="token-name">Texto párrafos</div>
+<div class="token-val">#6b6b70 (Ratio 4.8:1)</div>
+</div>
+</div>
+<div class="token-chip">
+<div class="color-preview" style="background: #c8102e;"></div>
+<div class="token-info">
+<div class="token-name">Acentos e iconos</div>
+<div class="token-val">#c8102e</div>
+</div>
+</div>
+<div class="token-chip">
+<div class="color-preview" style="background: #9e0c24;"></div>
+<div class="token-info">
+<div class="token-name">Botones y etiquetas</div>
+<div class="token-val">#9e0c24 (Ratio 6.7:1)</div>
+</div>
+</div>
+</div>
+<div class="subhead" style="margin-top: 24px;">B. Tokens Cromáticos - Contraparte en Modo Oscuro (Dark Mode)</div>
+<div class="tokens-palette">
+<div class="token-chip" style="background: #1e1e24; border-color: #2e2e38;">
+<div class="color-preview" style="background: #121214;"></div>
+<div class="token-info" style="background: #1e1e24;">
+<div class="token-name" style="color: rgb(244, 244, 246);">Fondo oscuro</div>
+<div class="token-val" style="color: rgb(160, 160, 166);">#121214</div>
+</div>
+</div>
+<div class="token-chip" style="background: #1e1e24; border-color: #2e2e38;">
+<div class="color-preview" style="background: #1e1e24; border-bottom: 1px solid #333;"></div>
+<div class="token-info" style="background: #1e1e24;">
+<div class="token-name" style="color: rgb(244, 244, 246);">Superficie tarjeta</div>
+<div class="token-val" style="color: rgb(160, 160, 166);">#1e1e24</div>
+</div>
+</div>
+<div class="token-chip" style="background: #1e1e24; border-color: #2e2e38;">
+<div class="color-preview" style="background: #f4f4f6;"></div>
+<div class="token-info" style="background: #1e1e24;">
+<div class="token-name" style="color: rgb(244, 244, 246);">Títulos y cifras</div>
+<div class="token-val" style="color: rgb(160, 160, 166);">#f4f4f6 (14.2:1)</div>
+</div>
+</div>
+<div class="token-chip" style="background: #1e1e24; border-color: #2e2e38;">
+<div class="color-preview" style="background: #a0a0a6;"></div>
+<div class="token-info" style="background: #1e1e24;">
+<div class="token-name" style="color: rgb(244, 244, 246);">Texto párrafos</div>
+<div class="token-val" style="color: rgb(160, 160, 166);">#a0a0a6 (6.9:1)</div>
+</div>
+</div>
+<div class="token-chip" style="background: #1e1e24; border-color: #2e2e38;">
+<div class="color-preview" style="background: #ff4d6d;"></div>
+<div class="token-info" style="background: #1e1e24;">
+<div class="token-name" style="color: rgb(244, 244, 246);">Acentos e iconos</div>
+<div class="token-val" style="color: rgb(160, 160, 166);">#ff4d6d (Alta vib.)</div>
+</div>
+</div>
+<div class="token-chip" style="background: #1e1e24; border-color: #2e2e38;">
+<div class="color-preview" style="background: #b81432;"></div>
+<div class="token-info" style="background: #1e1e24;">
+<div class="token-name" style="color: rgb(244, 244, 246);">Botones oscuros</div>
+<div class="token-val" style="color: rgb(160, 160, 166);">#b81432 (5.1:1)</div>
+</div>
+</div>
+</div>
+<div class="subhead" style="margin-top: 24px;">C. Tokens de Tipografía (Muestras Normativas)</div>
+<div class="tokens-typography">
+<div class="token-typo-card">
+<div class="typo-role">Títulos y Cifras Estadísticas</div>
+<div class="typo-preview" style="font-family: Cambria, Georgia, serif; font-weight: bold; font-size: 20px;">
+  Observatorio · 9,4% · +2,7 pp
+</div>
+<div class="typo-spec">Font-Family: 'Cambria', Georgia, serif</div>
+<p class="" style="font-size: 11px; color: var(--color-text-body); margin-top: 4px;">
+  Aplica a títulos (h1, h2, h3, h4), números grandes, porcentajes de tarjetas (36px), variaciones y métricas en tablas.
+</p>
+</div>
+<div class="token-typo-card">
+<div class="typo-role">Texto / Párrafos (Body)</div>
+<div class="typo-preview" style="font-family: Arial, sans-serif; font-size: 15px;">
+  Tasa de desocupación regional trimestre móvil
+</div>
+<div class="typo-spec">Font-Family: Arial, sans-serif</div>
+<p class="" style="font-size: 11px; color: var(--color-text-body); margin-top: 4px;">
+  Aplica al cuerpo general, etiquetas informativas, descripciones y fuentes institucionales.
+</p>
+</div>
+<div class="token-typo-card">
+<div class="typo-role">Botones Interactivos (Buttons)</div>
+<div class="typo-preview" style="font-family: Arial, sans-serif; font-weight: bold; font-size: 14px;">
+  Nota completa aquí
+</div>
+<div class="typo-spec">Font-Family: Arial, sans-serif (negrita / font-weight: bold)</div>
+<p class="" style="font-size: 11px; color: var(--color-text-body); margin-top: 4px;">
+  Aplica a todos los botones de acción primarios, controles de navegación y carrusel.
+</p>
+</div>
+</div>
+</section>
+<!-- ====================================================================
+         SECCIÓN 4: ÁTOMOS
+         ==================================================================== -->
+<section aria-labelledby="s4-title" class="section-block" id="sec-4">
+<h2 class="section-title" id="s4-title">
+<span class="badge-num">4</span>
+Átomos
+</h2>
+<p class="section-desc">
+  Elementos indivisibles: botones (Arial negrita), etiquetas, campos, la cifra destacada en Cambria y la nueva iconografía vectorial nítida que reproduce fielmente el trazo outline continuo de la referencia estándar.
+</p>
+<div class="atomic-box">
+<div class="subhead">A. Botón primario y enlaces</div>
+<div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+<button class="btn-primary">Nota completa aquí</button>
+<a class="" href="#" style="color: var(--color-buttons-tags); font-size: 13px; font-weight: bold; font-family: Arial, sans-serif; text-decoration: underline;">
+  Enlace de descarga serie Excel (.xlsx)
+</a>
+</div>
+</div>
+<div class="atomic-box">
+<div class="subhead">B. Etiquetas (Badges / Tags)</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">
+<span class="tag-badge">Trimestre: Junio-Agosto 2026</span>
+<span class="tag-badge">Boletín N° 335</span>
+<span class="tag-badge">Tasa: <span class="" style="font-family: var(--font-family-numbers); font-weight: bold;">9,4%</span></span>
+</div>
+</div>
+<div class="atomic-box">
+<div class="subhead">C. Campos y selectores</div>
+<select aria-label="Selector de muestra" class="form-select">
+<option>1. Arica y Parinacota (9,4%)</option>
+<option>2. Tarapacá (7,8%)</option>
+<option>3. Antofagasta (6,3%)</option>
+</select>
+</div>
+<div class="atomic-box">
+<div class="subhead">D. Iconografía de Género Fiel a la Referencia (Trazo Continuo Outline 100x100) y Cifra Cambria</div>
+<p style="font-size: 12px; color: var(--color-text-body); margin-bottom: 12px;" class="">
+  Vectores limpios basados en trazo continuo redondeado (stroke 6px, stroke-linecap/linejoin round, fill none): a la izquierda silueta de hombre; a la derecha silueta de mujer con vestido trapezoidal y piernas verticales separadas.
+</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; align-items: center;">
+<!-- Icono Mujer Referencia Fiel -->
+<div style="display: flex; align-items: center; gap: 12px; background: var(--color-surface-card); padding: 12px; border-radius: 6px; border: 1px solid var(--color-border);">
+<span class="icon-gender" style="width: 44px; height: 44px;" title="Icono Mujer Estándar">
+<svg height="44" viewBox="0 0 100 100" width="44">
+<circle cx="50" cy="20" r="13" stroke-width="6"></circle>
+<path d="M36 46 C36 40, 42 38, 50 38 C58 38, 64 40, 64 46 L76 74 C78 78, 72 80, 68 80 L60 80 L60 92 C60 96, 52 96, 52 92 L52 80 L48 80 L48 92 C48 96, 40 96, 40 92 L40 80 L32 80 C28 80, 22 78, 24 74 Z" stroke-width="6"></path>
+</svg>
+</span>
+<div>
+<div class="" style="font-size: 13px; font-weight: bold; color: var(--color-title-numbers);">Icono Mujer (Outline)</div>
+<div class="" style="font-size: 11px; color: var(--color-text-body);">Vestido trapecio redondeado</div>
+</div>
+</div>
+<!-- Icono Hombre Referencia Fiel -->
+<div style="display: flex; align-items: center; gap: 12px; background: var(--color-surface-card); padding: 12px; border-radius: 6px; border: 1px solid var(--color-border);">
+<span class="icon-gender" style="width: 44px; height: 44px;" title="Icono Hombre Estándar">
+<svg height="44" viewBox="0 0 100 100" width="44">
+<circle cx="50" cy="20" r="13" stroke-width="6"></circle>
+<path d="M30 46 C30 40, 36 38, 50 38 C64 38, 70 40, 70 46 L70 66 C70 70, 64 70, 64 66 L64 92 C64 96, 54 96, 54 92 L54 68 L46 68 L46 92 C46 96, 36 96, 36 92 L36 66 C36 70, 30 70, 30 66 Z" stroke-width="6"></path>
+</svg>
+</span>
+<div>
+<div class="" style="font-size: 13px; font-weight: bold; color: var(--color-title-numbers);">Icono Hombre (Outline)</div>
+<div class="" style="font-size: 11px; color: var(--color-text-body);">Torso y pantalón contorneado</div>
+</div>
+</div>
+<!-- Icono Dual / Paridad -->
+<div style="display: flex; align-items: center; gap: 12px; background: var(--color-surface-card); padding: 12px; border-radius: 6px; border: 1px solid var(--color-border);">
+<span class="icon-gender" style="width: 56px; height: 44px;" title="Icono Dual Igualdad">
+<svg height="44" viewBox="0 0 140 100" width="56">
+<!-- Hombre izq -->
+<circle cx="34" cy="20" r="12" stroke-width="5"></circle>
+<path d="M18 46 C18 41, 23 39, 34 39 C45 39, 50 41, 50 46 L50 64 C50 67, 45 67, 45 64 L45 92 C45 95, 38 95, 38 92 L38 67 L30 67 L30 92 C30 95, 23 95, 23 92 L23 64 C23 67, 18 67, 18 64 Z" stroke-width="5"></path>
+<!-- Mujer der -->
+<circle cx="106" cy="20" r="12" stroke-width="5"></circle>
+<path d="M94 46 C94 41, 99 39, 106 39 C113 39, 118 41, 118 46 L128 73 C130 76, 125 78, 122 78 L115 78 L115 92 C115 95, 108 95, 108 92 L108 78 L104 78 L104 92 C104 95, 97 95, 97 92 L97 78 L90 78 C87 78, 82 76, 84 73 Z" stroke-width="5"></path>
+</svg>
+</span>
+<div>
+<div class="" style="font-size: 13px; font-weight: bold; color: var(--color-title-numbers);">Icono Dual / Paridad</div>
+<div class="" style="font-size: 11px; color: var(--color-text-body);">Hombre y Mujer (Aysén)</div>
+</div>
+</div>
+<!-- Muestra de Cifra en Cambria -->
+<div style="display: flex; align-items: baseline; gap: 8px; background: var(--color-surface-card); padding: 12px; border-radius: 6px; border: 1px solid var(--color-border);">
+<span class="stat-number" style="font-size: 32px;">9,4%</span>
+<span class="" style="font-size: 11px; color: var(--color-text-body);">Cifra en Cambria serif</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ====================================================================
+         SECCIÓN 5: MOLÉCULAS
+         ==================================================================== -->
+<section aria-labelledby="s5-title" class="section-block" id="sec-5">
+<h2 class="section-title" id="s5-title">
+<span class="badge-num">5</span>
+Moléculas
+</h2>
+<p class="section-desc">
+  Combinaciones de átomos: tarjeta de cifra con fuente, selector de región, leyenda cromática y métricas en tipografía Cambria.
+</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+<div class="stat-card">
+<div class="stat-card-label">Arica y Parinacota (Norte)</div>
+<div class="stat-card-body">
+<span class="stat-number">9,4%</span>
+</div>
+<div class="stat-card-source">
+  Fuente: INE, Boletín estadístico edición n° 198, 30-09-2026
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-card-label">Leyenda del mapa y gráfica</div>
+<div style="display: flex; flex-direction: column; gap: 4px; margin-top: 6px; font-size: 11px;">
+<div style="display: flex; align-items: center; gap: 6px;">
+<span style="width: 14px; height: 14px; background: var(--map-scale-low); border: 1px solid #ccc; display: inline-block;"></span>
+<span class=""><strong class="cifra-inline" style="font-family: var(--font-family-numbers);">4,0% - 6,9%</strong> (Bajo)</span>
+</div>
+<div style="display: flex; align-items: center; gap: 6px;">
+<span style="width: 14px; height: 14px; background: var(--map-scale-mid); display: inline-block;"></span>
+<span class=""><strong class="cifra-inline" style="font-family: var(--font-family-numbers);">7,0% - 8,9%</strong> (Medio)</span>
+</div>
+<div style="display: flex; align-items: center; gap: 6px;">
+<span style="width: 14px; height: 14px; background: var(--map-scale-high); display: inline-block;"></span>
+<span class=""><strong class="cifra-inline" style="font-family: var(--font-family-numbers);">9,0% - 10,4%</strong> (Alto)</span>
+</div>
+<div style="display: flex; align-items: center; gap: 6px;">
+<span style="width: 14px; height: 14px; background: var(--map-scale-alert); display: inline-block;"></span>
+<span class=""><strong class="cifra-inline" style="font-family: var(--font-family-numbers);">10,5% - 12,0%</strong> (Muy alto)</span>
+</div>
+</div>
+<div class="stat-card-source">
+  Basado en 16 regiones ENE INE ordenadas de Norte a Sur
+</div>
+</div>
+</div>
+</section>
+<!-- ====================================================================
+         SECCIÓN 6: ORGANISMOS
+         ==================================================================== -->
+<section aria-labelledby="s6-title" class="section-block" id="sec-6">
+<h2 class="section-title" id="s6-title">
+<span class="badge-num">6</span>
+Organismos
+</h2>
+<p class="section-desc">
+  Estructuras integrales: cabecera con navegación, ficha de la región, carrusel móvil, gráfica de 16 barras en escritorio y pie con IA.
+</p>
+<div style="display: flex; flex-direction: column; gap: 24px;">
+  <!-- Organismo 1: Cabecera y Navegación Dummy -->
+  <div style="background: var(--color-surface-subtle); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 18px;">
+    <p style="font-size: 13px; line-height: 1.5; margin-bottom: 12px;" class=""><strong style="color: var(--color-title-numbers); font-size: 14px;">1. Cabecera y Navegación:</strong> Controla el contexto temporal y permite alternar la región siguiendo la secuencia geográfica oficial. A continuación se presenta la maqueta interactiva de referencia en modo plantilla:</p>
+    <div style="background: var(--color-surface-card); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 14px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border-subtle); padding-bottom: 8px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <h4 style="margin: 0; font-size: 15px; color: var(--color-title-numbers); font-family: var(--font-family-titles);" class="">Observatorio de Empleo (Plantilla de Referencia)</h4>
+          <span style="font-size: 11px; color: var(--color-text-body);" class="">Trimestre: [Mes - Mes Año] · Edición n° [000]</span>
+        </div>
+        <span class="tag-badge">Modo Referencia: 0,0%</span>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
+        <label for="dummy-region-nav-select" style="font-size: 12px; font-weight: bold; color: var(--color-title-numbers);" class="">Seleccionar región simulada:</label>
+        <select id="dummy-region-nav-select" class="form-select" style="max-width: 280px; font-size: 12px; padding: 6px;" onchange="document.getElementById('dummy-reg-badge-text').textContent = 'Región: ' + this.options[this.selectedIndex].text + ' (0,0%)';">
+          <option>1. Arica y Parinacota</option>
+          <option>2. Tarapacá</option>
+          <option>3. Antofagasta</option>
+          <option>4. Atacama</option>
+          <option>5. Coquimbo</option>
+          <option>6. Valparaíso</option>
+          <option selected="">7. Metropolitana</option>
+          <option>8. O'Higgins</option>
+          <option>9. Maule</option>
+          <option>10. Ñuble</option>
+          <option>11. Biobío</option>
+          <option>12. La Araucanía</option>
+          <option>13. Los Ríos</option>
+          <option>14. Los Lagos</option>
+          <option>15. Aysén</option>
+          <option>16. Magallanes</option>
+        </select>
+        <span id="dummy-reg-badge-text" style="font-size: 12px; color: var(--color-buttons-tags); font-weight: bold; font-family: var(--font-family-titles); background: var(--color-tag-bg); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--color-tag-border);" class="">Región: 7. Metropolitana (0,0%)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Organismo 2: Ficha de la Región Dummy -->
+  <div style="background: var(--color-surface-subtle); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 18px;">
+    <p style="font-size: 13px; line-height: 1.5; margin-bottom: 12px;" class=""><strong style="color: var(--color-title-numbers); font-size: 14px;">2. Ficha de la Región:</strong> Muestra la dualidad de tarjetas (tasa regional + género más vulnerable con icono reactivo continuo de alta fidelidad). Los valores numéricos se mantienen en cero y se permite conmutar la iconografía de género para pruebas interactivas:</p>
+    <div style="background: var(--color-surface-card); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 14px;">
+      <!-- Barra interactiva para conmutar género -->
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+        <span style="font-size: 12px; font-weight: bold; color: var(--color-title-numbers);" class="">Alternar silueta de género (Prueba interactiva):</span>
+        <div style="display: inline-flex; gap: 6px;">
+          <button type="button" class="nav-tab-btn" style="font-size: 11px; padding: 4px 8px; color: var(--color-title-numbers); border-color: var(--color-border);" onclick="document.getElementById('dummy-gender-icon-holder').innerHTML = '&lt;svg viewBox=\'0 0 100 100\' width=\'34\' height=\'34\' stroke=\'var(--color-accent-icons)\' fill=\'none\' stroke-width=\'6\' stroke-linecap=\'round\' stroke-linejoin=\'round\'&gt;&lt;circle cx=\'50\' cy=\'20\' r=\'13\'/&gt;&lt;path d=\'M36 46 C36 40, 42 38, 50 38 C58 38, 64 40, 64 46 L76 74 C78 78, 72 80, 68 80 L60 80 L60 92 C60 96, 52 96, 52 92 L52 80 L48 80 L48 92 C48 96, 40 96, 40 92 L40 80 L32 80 C28 80, 22 78, 24 74 Z\'/&gt;&lt;/svg&gt;'; document.getElementById('dummy-gender-label').textContent='Mujeres';">Mujer</button>
+          <button type="button" class="nav-tab-btn" style="font-size: 11px; padding: 4px 8px; color: var(--color-title-numbers); border-color: var(--color-border);" onclick="document.getElementById('dummy-gender-icon-holder').innerHTML = '&lt;svg viewBox=\'0 0 100 100\' width=\'34\' height=\'34\' stroke=\'var(--color-accent-icons)\' fill=\'none\' stroke-width=\'6\' stroke-linecap=\'round\' stroke-linejoin=\'round\'&gt;&lt;circle cx=\'50\' cy=\'20\' r=\'13\'/&gt;&lt;path d=\'M30 46 C30 40, 36 38, 50 38 C64 38, 70 40, 70 46 L70 66 C70 70, 64 70, 64 66 L64 92 C64 96, 54 96, 54 92 L54 68 L46 68 L46 92 C46 96, 36 96, 36 92 L36 66 C36 70, 30 70, 30 66 Z\'/&gt;&lt;/svg&gt;'; document.getElementById('dummy-gender-label').textContent='Hombres';">Hombre</button>
+          <button type="button" class="nav-tab-btn" style="font-size: 11px; padding: 4px 8px; color: var(--color-title-numbers); border-color: var(--color-border);" onclick="document.getElementById('dummy-gender-icon-holder').innerHTML = '&lt;svg viewBox=\'0 0 140 100\' width=\'44\' height=\'34\' stroke=\'var(--color-accent-icons)\' fill=\'none\' stroke-width=\'5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'&gt;&lt;circle cx=\'34\' cy=\'20\' r=\'12\'/&gt;&lt;path d=\'M18 46 C18 41, 23 39, 34 39 C45 39, 50 41, 50 46 L50 64 C50 67, 45 67, 45 64 L45 92 C45 95, 38 95, 38 92 L38 67 L30 67 L30 92 C30 95, 23 95, 23 92 L23 64 C23 67, 18 67, 18 64 Z\'/&gt;&lt;circle cx=\'106\' cy=\'20\' r=\'12\'/&gt;&lt;path d=\'M94 46 C94 41, 99 39, 106 39 C113 39, 118 41, 118 46 L128 73 C130 76, 125 78, 122 78 L115 78 L115 92 C115 95, 108 95, 108 92 L108 78 L104 78 L104 92 C104 95, 97 95, 97 92 L97 78 L90 78 C87 78, 82 76, 84 73 Z\'/&gt;&lt;/svg&gt;'; document.getElementById('dummy-gender-label').textContent='Paridad';">Paridad</button>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+        <div class="stat-card" style="min-height: 100px;">
+          <div>
+            <div class="stat-card-label">Tasa de Desocupación Regional (Simulación)</div>
+            <div class="stat-card-body">
+              <span class="stat-number">0,0%</span>
+            </div>
+          </div>
+          <div class="stat-card-source">Variación con trimestre anterior: <strong>0,0 pp</strong> (Sin datos oficiales)</div>
+        </div>
+        <div class="stat-card" style="min-height: 100px;">
+          <div>
+            <div class="stat-card-label">Género más afectado (Simulación)</div>
+            <div class="stat-card-body">
+              <span id="dummy-gender-icon-holder" class="icon-gender" style="width: 36px; height: 36px;">
+                <svg viewBox="0 0 100 100" width="34" height="34" stroke="currentColor" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="50" cy="20" r="13"></circle>
+                  <path d="M36 46 C36 40, 42 38, 50 38 C58 38, 64 40, 64 46 L76 74 C78 78, 72 80, 68 80 L60 80 L60 92 C60 96, 52 96, 52 92 L52 80 L48 80 L48 92 C48 96, 40 96, 40 92 L40 80 L32 80 C28 80, 22 78, 24 74 Z"></path>
+                </svg>
+              </span>
+              <span class="stat-number">0,0%</span>
+            </div>
+            <div id="dummy-gender-label" style="font-size: 11px; font-weight: bold; color: var(--color-buttons-tags);" class="">Mujeres</div>
+          </div>
+          <div class="stat-card-source">INE, Boletín estadístico: referencia en blanco, 0,0 pp</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Organismo 3: Gráfica de Barras de 16 Regiones en Escritorio Dummy -->
+  <div style="background: var(--color-surface-subtle); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 18px;">
+    <p style="font-size: 13px; line-height: 1.5; margin-bottom: 12px;" class=""><strong style="color: var(--color-title-numbers); font-size: 14px;">3. Gráfica de Barras de 16 Regiones en Escritorio:</strong> Representación visual completa de Norte a Sur sincronizada. En esta vista de referencia todas las barras se presentan a nivel cero ('0,0%') y al interactuar o hacer clic en cualquier barra se activa el selector visual sin modificar la cifra neutra:</p>
+    <div style="background: var(--color-surface-card); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 14px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="font-size: 12px; font-weight: bold; color: var(--color-title-numbers);" class="">Referencia Plana (16 Regiones a 0,0%):</span>
+        <span id="dummy-bar-status" style="font-size: 11px; color: var(--color-buttons-tags); font-weight: bold;" class="">Barra seleccionada: Ninguna (Haz clic en una barra)</span>
+      </div>
+      <div class="desktop-bars-container" style="height: 110px; padding: 6px;">
+        <div class="desk-bar-col" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: AP (Arica y Parinacota: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">AP</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: TA (Tarapacá: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">TA</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: AN (Antofagasta: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">AN</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: AT (Atacama: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">AT</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: CO (Coquimbo: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">CO</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: VS (Valparaíso: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">VS</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: RM (Metropolitana: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">RM</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: LI (O\'Higgins: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">LI</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: ML (Maule: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">ML</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: NB (Ñuble: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">NB</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: BI (Biobío: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">BI</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: AR (La Araucanía: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">AR</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: LR (Los Ríos: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">LR</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: LL (Los Lagos: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">LL</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: AI (Aysén: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">AI</span>
+        </div>
+        <div class="desk-bar-col dummy-dbar" onclick="document.querySelectorAll('.dummy-dbar').forEach(el=&gt;el.classList.remove('active')); this.classList.add('active'); document.getElementById('dummy-bar-status').textContent='Barra activa: MA (Magallanes: 0,0%)';" style="cursor: pointer;">
+          <span class="desk-bar-val">0,0%</span>
+          <div class="desk-bar-cyl" style="height: 60px;"><div class="desk-bar-inner" style="height: 4px;"></div></div>
+          <span class="desk-bar-code">MA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Organismo 4: Bloque de Nota y Pie Dummy -->
+  <div style="background: var(--color-surface-subtle); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 18px;">
+    <p style="font-size: 13px; line-height: 1.5; margin-bottom: 12px;" class=""><strong style="color: var(--color-title-numbers); font-size: 14px;">4. Bloque de Nota y Pie:</strong> Vinculación directa al PDF oficial del INE y cláusula de autoría asistida por IA. Incluye un botón interactivo de simulación que despliega la alerta de referencia y un selector de estado de revisión editorial:</p>
+    <div style="background: var(--color-surface-card); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 14px;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px;">
+        <button type="button" class="btn-primary" style="font-size: 13px; padding: 8px 14px;" onclick="alert('Simulación de Enlace: Enlace de referencia [Boletín Oficial N° 000]. Estado: Documento plantilla sin cifras oficiales activas.');">Nota completa aquí (Simulación)</button>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <label for="dummy-ia-status-select" style="font-size: 11px; color: var(--color-text-body); font-weight: bold;" class="">Estado editorial:</label>
+          <select id="dummy-ia-status-select" class="form-select" style="font-size: 11px; padding: 4px 8px; max-width: 170px;" onchange="document.getElementById('dummy-editorial-badge').textContent = this.value;">
+            <option>[Borrador de Prueba]</option>
+            <option>[En Revisión Humana]</option>
+            <option>[Validado por Estudios]</option>
+          </select>
+        </div>
+      </div>
+      <footer class="source-ai-line" style="margin-top: 0; padding-top: 8px;">
+        <p class=""><strong>Fuente Simulada:</strong> INE, Boletín estadístico de referencia n° [000], [Fecha: DD/MM/AAAA]. Valores numéricos: 0,0%.</p>
+        <p style="margin-top: 4px;" class=""><strong>Redactado por agente IA · Aprobado por:</strong> <span id="dummy-editorial-badge" style="color: var(--color-buttons-tags); font-weight: bold;" class="">[Borrador de Prueba]</span></p>
+      </footer>
+    </div>
+  </div>
+</div>
+</section>
+<!-- ====================================================================
+         SECCIÓN 7: PLANTILLAS Y PÁGINAS (CON COMPARATIVA MODO OSCURO)
+         ==================================================================== -->
+<section aria-labelledby="s7-title" class="section-block" id="sec-7">
+<h2 class="section-title" id="s7-title">
+<span class="badge-num">7</span>
+Plantillas y Páginas (Maqueta Comparativa Modo Claro vs Modo Oscuro)
+</h2>
+<p class="section-desc">
+  Comparación de plantillas hidratadas en ambos modos y especificación de diseño responsivo sincronizado para móvil y escritorio.
+</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px;">
+<!-- Maqueta Modo Claro -->
+<div class="theme-comparison-card card-light">
+<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e2e5; padding-bottom: 6px;">
+<strong style="font-size: 13px; font-family: Cambria, serif;">Plantilla Móvil: Modo Claro</strong>
+<span style="font-size: 10px; background: rgb(226, 226, 229); padding: 2px 6px; border-radius: 4px;" class="">Fondo #F6F6F7</span>
+</div>
+<div style="background: #fafafb; border: 1px solid #e2e2e5; border-radius: 6px; padding: 10px;">
+<div style="font-size: 11px; font-weight: bold; color: rgb(22, 22, 26); font-family: Cambria, serif;" class="">Observatorio de Empleo</div>
+<div style="display: flex; justify-content: space-between; margin-top: 8px;">
+<div style="background: #ffffff; border: 1px solid #e2e2e5; padding: 6px; border-radius: 4px; width: 48%;">
+<div style="font-size: 9px; color: rgb(107, 107, 112);" class="">ARICA</div>
+<div style="font-size: 16px; font-weight: bold; font-family: Cambria, serif; color: rgb(22, 22, 26);" class="">9,4%</div>
+</div>
+<div style="background: #ffffff; border: 1px solid #e2e2e5; padding: 6px; border-radius: 4px; width: 48%; display: flex; align-items: center; gap: 4px;">
+<svg fill="none" height="20" stroke="#c8102e" stroke-width="8" viewBox="0 0 100 100" width="20"><circle cx="50" cy="20" r="13"></circle><path d="M30 46 C30 40, 36 38, 50 38 C64 38, 70 40, 70 46 L70 66 C70 70, 64 70, 64 66 L64 92 C64 96, 54 96, 54 92 L54 68 L46 68 L46 92 C46 96, 36 96, 36 92 L36 66 C36 70, 30 70, 30 66 Z"></path></svg>
+<div>
+<div style="font-size: 9px; color: rgb(107, 107, 112);" class="">HOMBRES</div>
+<div style="font-size: 13px; font-weight: bold; font-family: Cambria, serif; color: rgb(22, 22, 26);" class="">10,2%</div>
+</div>
+</div>
+</div>
+<div style="margin-top: 8px; background: rgb(158, 12, 36); color: rgb(255, 255, 255); text-align: center; padding: 5px; font-size: 10px; font-weight: bold; border-radius: 4px;" class="">
+    Nota completa aquí
+  </div>
+</div>
+<div style="font-size: 11px; color: rgb(107, 107, 112);" class="">
+  Contraste título/fondo: 15.8:1 · Botón: #9e0c24 · Tarjetas blancas puras con bordes sutiles.
+</div>
+</div>
+<!-- Maqueta Modo Oscuro -->
+<div class="theme-comparison-card card-dark">
+<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2e2e38; padding-bottom: 6px;">
+<strong style="font-size: 13px; font-family: Cambria, serif; color: #f4f4f6;">Plantilla Móvil: Modo Oscuro (Dark)</strong>
+<span style="font-size: 10px; background: rgb(46, 46, 56); color: rgb(160, 160, 166); padding: 2px 6px; border-radius: 4px;" class="">Fondo #121214</span>
+</div>
+<div style="background: #17171c; border: 1px solid #2e2e38; border-radius: 6px; padding: 10px;">
+<div style="font-size: 11px; font-weight: bold; color: rgb(244, 244, 246); font-family: Cambria, serif;" class="">Observatorio de Empleo</div>
+<div style="display: flex; justify-content: space-between; margin-top: 8px;">
+<div style="background: #1e1e24; border: 1px solid #2e2e38; padding: 6px; border-radius: 4px; width: 48%;">
+<div style="font-size: 9px; color: rgb(160, 160, 166);" class="">O'HIGGINS</div>
+<div style="font-size: 16px; font-weight: bold; font-family: Cambria, serif; color: rgb(244, 244, 246);" class="">10,8%</div>
+</div>
+<div style="background: #1e1e24; border: 1px solid #2e2e38; padding: 6px; border-radius: 4px; width: 48%; display: flex; align-items: center; gap: 4px;">
+<svg fill="none" height="20" stroke="#ff4d6d" stroke-width="8" viewBox="0 0 100 100" width="20"><circle cx="50" cy="20" r="13"></circle><path d="M36 46 C36 40, 42 38, 50 38 C58 38, 64 40, 64 46 L76 74 C78 78, 72 80, 68 80 L60 80 L60 92 C60 96, 52 96, 52 92 L52 80 L48 80 L48 92 C48 96, 40 96, 40 92 L40 80 L32 80 C28 80, 22 78, 24 74 Z"></path></svg>
+<div>
+<div style="font-size: 9px; color: rgb(160, 160, 166);" class="">MUJERES</div>
+<div style="font-size: 13px; font-weight: bold; font-family: Cambria, serif; color: rgb(244, 244, 246);" class="">13,2%</div>
+</div>
+</div>
+</div>
+<div style="margin-top: 8px; background: rgb(184, 20, 50); color: rgb(255, 255, 255); text-align: center; padding: 5px; font-size: 10px; font-weight: bold; border-radius: 4px;" class="">
+    Nota completa aquí
+  </div>
+</div>
+<div style="font-size: 11px; color: rgb(160, 160, 166);" class="">
+  Contraste título/fondo: 14.2:1 · Acento: #ff4d6d · Botón #b81432 · Superficie #1e1e24.
+</div>
+</div>
+</div>
+</section>
+<!-- ====================================================================
+         SECCIÓN 8: ESTADOS
+         ==================================================================== -->
+<section aria-labelledby="s8-title" class="section-block" id="sec-8">
+<h2 class="section-title" id="s8-title">
+<span class="badge-num">8</span>
+Estados
+</h2>
+<p class="section-desc">
+  Comportamientos visuales para estados del sistema y estados interactivos de botones en tipografía Arial negrita.
+</p>
+<div class="states-grid">
+<div class="state-card loading-card">
+<strong>Cargando (Skeleton)</strong>
+<div class="" style="margin-top: 8px;">Obteniendo serie estadística desde INE...</div>
+</div>
+<div class="state-card">
+<strong>Sin datos</strong>
+<p class="" style="margin-top: 6px; color: var(--color-text-body);">No hay registros disponibles para el corte territorial seleccionado.</p>
+</div>
+<div class="state-card" style="border-color: #f7ccd2;">
+<strong style="color: var(--color-accent-icons);">Error de conexión</strong>
+<p class="" style="margin-top: 6px; color: var(--color-text-body);">No fue posible cargar el boletín. Reintente más tarde.</p>
+</div>
+<div class="state-card">
+<strong>“No consta” (N/C)</strong>
+<p class="" style="margin-top: 6px; color: var(--color-text-body);">Muestra estadística insuficiente en el desglose muestral.</p>
+</div>
+</div>
+<div class="subhead" style="margin-top: 20px;">Estados de Interacción del Botón (Arial Negrita)</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+<button class="btn-primary">Normal</button>
+<button class="btn-primary" style="filter: brightness(1.2);">Encima (Hover)</button>
+<button class="btn-primary" style="filter: brightness(0.85);">Activo (Active)</button>
+<button class="btn-primary" style="outline: var(--color-focus) solid 3px; outline-offset: 2px;">Foco (Focus)</button>
+<button class="btn-primary" disabled="">Deshabilitado</button>
+</div>
+</section>
+<!-- ====================================================================
+         SECCIÓN 9: DATOS Y VOZ
+         ==================================================================== -->
+<section aria-labelledby="s9-title" class="section-block" id="sec-9">
+<h2 class="section-title" id="s9-title">
+<span class="badge-num">9</span>
+Datos y Voz
+</h2>
+<p class="section-desc">
+  Guía de estilo editorial, nomenclatura estandarizada y directrices para textos y métricas.
+</p>
+<table class="voice-table">
+<thead>
+<tr>
+<th class="">Elemento</th>
+<th class="">Convención Estricta</th>
+<th class="">Ejemplo Correcto</th>
+<th class="">Ejemplo Incorrecto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class=""><strong>Cifras y Porcentajes</strong></td>
+<td class="">Coma como separador decimal. Sin adjetivos de acompañamiento. Tipografía Cambria obligatoria.</td>
+<td class=""><code>9,4%</code> (Cambria)</td>
+<td class=""><code>9.4%</code> o <code>Preocupante 9,4%</code></td>
+</tr>
+<tr>
+<td class=""><strong>Puntos Porcentuales</strong></td>
+<td class="">Abreviatura "pp" precedida por signo de dirección (+ / -) con valor numérico en Cambria.</td>
+<td class=""><code>+2,7 pp</code> / <code>-0,4 pp</code></td>
+<td class=""><code>subió 2 puntos</code></td>
+</tr>
+<tr>
+<td class=""><strong>Disposición Territorial</strong></td>
+<td class="">Orden estricto de Norte a Sur (AP a MA).</td>
+<td class=""><code>1. Arica y Parinacota ... 16. Magallanes</code></td>
+<td class=""><code>Orden alfabético desordenado</code></td>
+</tr>
+<tr>
+<td class=""><strong>Cita de Fuentes</strong></td>
+<td class="">Organismo emisor, número de boletín y fecha de edición.</td>
+<td class=""><code>INE, Boletín n° 198, 30-09-2026</code></td>
+<td class=""><code>Según el gobierno</code></td>
+</tr>
+<tr>
+<td class=""><strong>Soporte Dual de Tema</strong></td>
+<td class="">Modo Claro por defecto; Modo Oscuro con tokens WCAG 2.1 AA.</td>
+<td class=""><code>Claro (#16161a / #f6f6f7) - Oscuro (#f4f4f6 / #121214)</code></td>
+<td class=""><code>Invertir colores sin calibrar ratio</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<!-- ====================================================================
+         SECCIÓN 10: ACCESIBILIDAD E IA
+         ==================================================================== -->
+<section aria-labelledby="s10-title" class="section-block" id="sec-10">
+<h2 class="section-title" id="s10-title">
+<span class="badge-num">10</span>
+Accesibilidad e IA
+</h2>
+<p class="section-desc">
+  Cumplimiento WCAG 2.1 AA (contraste ≥ 4,5:1 en ambos temas), legibilidad tipográfica y transparencia sobre el uso de modelos de Inteligencia Artificial.
+</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+<div style="background: var(--color-surface-subtle); border: 1px solid var(--color-border); padding: 16px; border-radius: var(--radius-sm);">
+<h4 class="" style="color: var(--color-title-numbers); margin-bottom: 8px;">Criterios de Accesibilidad (WCAG 2.1 AA)</h4>
+<ul style="font-size: 13px; line-height: 1.6; list-style: none;">
+<li class=""><span class="a11y-pill">Contraste Claro</span> Títulos y cifras #16161a sobre #f6f6f7 = <strong>15.8:1</strong>. Botones #9e0c24 = <strong>6.7:1</strong>.</li>
+<li class=""><span class="a11y-pill">Contraste Oscuro</span> Títulos y cifras #f4f4f6 sobre #121214 = <strong>14.2:1</strong>. Párrafos #a0a0a6 = <strong>6.9:1</strong>.</li>
+<li class=""><span class="a11y-pill">Tipografía</span> Títulos y cifras estadísticas en 'Cambria' serif para máxima diferenciación; Arial para UI.</li>
+<li class=""><span class="a11y-pill">Iconos Outline</span> Trazos gruesos continuos de 6px en SVG vectorial escalable con etiquetas semánticas descriptivas.</li>
+</ul>
+</div>
+<div style="background: var(--color-surface-subtle); border: 1px solid var(--color-border); padding: 16px; border-radius: var(--radius-sm);">
+<h4 class="" style="color: var(--color-title-numbers); margin-bottom: 8px;">Declaración de Asistencia de IA</h4>
+<p class="" style="font-size: 13px; color: var(--color-text-body); line-height: 1.5; margin-bottom: 8px;">
+  Este sistema de diseño y código frontend fue estructurado y codificado con asistencia de un <strong>Agente de IA</strong> conforme a las directrices de Atomic Design y a los datos proporcionados por el Instituto Nacional de Estadísticas (INE).</p>
+<p class="" style="font-size: 12px; color: var(--color-title-numbers); font-weight: 500;">
+<strong>Garantía de integridad de datos:</strong> La IA respeta fielmente la secuencia territorial norte-sur (desde Arica y Parinacota hasta Magallanes) y los valores de cada boletín oficial sin alteración.
+</p>
+</div>
+</div>
+</section>
+</main>
+<!-- ====================================================================
+       JAVASCRIPT: SIN LIBRERÍAS EXTERNAS (ORDEN NORTE A SUR, MODO OSCURO Y SVGs EXACTOS)
+       ==================================================================== -->
+<script>
+    // Dataset ordenado rigurosamente de NORTE A SUR (1. Arica y Parinacota a 16. Magallanes)
+    const DATASET = {
+      trimestre: "junio-agosto 2026",
+      fecha_publicacion: "2026-09-30",
+      boletin: 335,
+      serie_excel: "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/indicadores_principales_reg_sex.xlsx",
+      nacional: {
+        tasa: 9.6,
+        variacion_pp: 1.0,
+        fuente: "INE, Boletín ENE n.º 335, 30-09-2026",
+        url: "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/boletines/2026/nacional/ene-nacional-335.pdf"
+      },
+      regiones: [
+        {
+          region: "Arica y Parinacota",
+          codigo: "AP",
+          tasa: 9.4,
+          variacion_pp: 2.7,
+          tasa_hombres: 10.2,
+          tasa_mujeres: 8.4,
+          informalidad: 31.6,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Arica y Parinacota, edición n° 198, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-xv/estadisticas/ocupacion-y-desocupacion/boletines/2026/encuesta-nacional-de-empleo---ene-periodo-junio---agosto-2026.pdf"
+        },
+        {
+          region: "Tarapacá",
+          codigo: "TA",
+          tasa: 7.8,
+          variacion_pp: 0.8,
+          tasa_hombres: 7.5,
+          tasa_mujeres: 8.2,
+          informalidad: 30.6,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Tarapacá, edición n° 198, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-i/estadisticas/ocupacion-y-desocupacion/boletines/2026/informe-de-empleo-junio---agosto-2026.pdf"
+        },
+        {
+          region: "Antofagasta",
+          codigo: "AN",
+          tasa: 6.3,
+          variacion_pp: -0.4,
+          tasa_hombres: 5.5,
+          tasa_mujeres: 7.5,
+          informalidad: 20.9,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Antofagasta, edición n° 136, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-ii/estadistica/ocupacion-y-desocupacion/boletines/2026/empleo-trimestre-m%c3%b3vil-junio---agosto-2026.pdf"
+        },
+        {
+          region: "Atacama",
+          codigo: "AT",
+          tasa: 9.5,
+          variacion_pp: 0.2,
+          tasa_hombres: 8.5,
+          tasa_mujeres: 10.7,
+          informalidad: 27.9,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Atacama, edición n° 198, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-iii/estadisticas/ocupacion-y-desocupacion/boletines/2026/ene---per%c3%adodo-junio---agosto-2026.pdf"
+        },
+        {
+          region: "Coquimbo",
+          codigo: "CO",
+          tasa: 9.4,
+          variacion_pp: 1.8,
+          tasa_hombres: 9.0,
+          tasa_mujeres: 9.8,
+          informalidad: 28.1,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Coquimbo, edición n° 246, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-iv/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-empleo-junio---agosto-2026.pdf"
+        },
+        {
+          region: "Valparaíso",
+          codigo: "VS",
+          tasa: 10.2,
+          variacion_pp: 1.4,
+          tasa_hombres: 9.3,
+          tasa_mujeres: 11.4,
+          informalidad: 28.6,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Valparaíso, edición n° 124, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-v/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-empleo-regional-trimestre-m%c3%b3vil-junio---agosto-2026.pdf"
+        },
+        {
+          region: "Metropolitana",
+          codigo: "RM",
+          tasa: 9.8,
+          variacion_pp: 0.9,
+          tasa_hombres: 9.4,
+          tasa_mujeres: 10.2,
+          informalidad: 23.4,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Metropolitana de Santiago, edición n° 123, 30 de septiembre de 2026",
+          url: "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/boletines/2026/rm/ene-rm-123.pdf"
+        },
+        {
+          region: "O'Higgins",
+          codigo: "LI",
+          tasa: 10.8,
+          variacion_pp: 2.2,
+          tasa_hombres: 9.1,
+          tasa_mujeres: 13.2,
+          informalidad: 29.4,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Libertador General Bernardo O'Higgins, edición n° 186, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-vi/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-regional-trimestre-m%c3%b3vil-junio-2026---julio-2026---agosto-2026.pdf"
+        },
+        {
+          region: "Maule",
+          codigo: "ML",
+          tasa: 9.5,
+          variacion_pp: 1.6,
+          tasa_hombres: 8.5,
+          tasa_mujeres: 10.7,
+          informalidad: 30.6,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Maule, edición n° 91, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-vii/estadisticas/ocupacion-y-desocupacion/boletines/2026/informe-empleo-junio-agosto-2026.pdf"
+        },
+        {
+          region: "Ñuble",
+          codigo: "NB",
+          tasa: 11.2,
+          variacion_pp: 1.1,
+          tasa_hombres: 10.5,
+          tasa_mujeres: 12.0,
+          informalidad: 32.2,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Ñuble, edición n° 93, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-xvi/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-empleo-regional-trimestre-m%c3%b3vil-junio---agosto-2026.pdf"
+        },
+        {
+          region: "Biobío",
+          codigo: "BI",
+          tasa: 10.7,
+          variacion_pp: 0.8,
+          tasa_hombres: 10.3,
+          tasa_mujeres: 11.1,
+          informalidad: 27.9,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Biobío, edición n° 198, 30 de septiembre de 2026",
+          url: "https://regiones.ine.cl/documentos/default-source/region-viii/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-empleo-biob%c3%ado-trimestre-m%c3%b3vil-junio-agosto-2026.pdf"
+        },
+        {
+          region: "La Araucanía",
+          codigo: "AR",
+          tasa: 10.1,
+          variacion_pp: 0.8,
+          tasa_hombres: 9.8,
+          tasa_mujeres: 10.5,
+          informalidad: 33.3,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región La Araucanía, edición n° 198, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-ix/estadisticas/ocupacion-y-desocupacion/boletines/2026/boletin-empleo-jja2026.pdf"
+        },
+        {
+          region: "Los Ríos",
+          codigo: "LR",
+          tasa: 10.2,
+          variacion_pp: 1.1,
+          tasa_hombres: 9.9,
+          tasa_mujeres: 10.6,
+          informalidad: 32.3,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Los Ríos, edición n° 209, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-xiv/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-empleo-trimestre-m%c3%b3vil-junio---agosto-2026.pdf"
+        },
+        {
+          region: "Los Lagos",
+          codigo: "LL",
+          tasa: 7.8,
+          variacion_pp: 2.8,
+          tasa_hombres: 7.7,
+          tasa_mujeres: 7.9,
+          informalidad: 26.4,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Los Lagos, edición n° 293, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-x/estadisticas/ocupacion-y-desocupacion/boletines/2026/ene---periodo-junio---agosto-2026.pdf"
+        },
+        {
+          region: "Aysén",
+          codigo: "AI",
+          tasa: 4.0,
+          variacion_pp: -0.3,
+          tasa_hombres: 4.0,
+          tasa_mujeres: 4.0,
+          informalidad: 27.5,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Aysén del General Carlos Ibáñez del Campo, edición n° 197, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-xi/estadisticas/ocupacion-y-desocupacion/boletines/2026/bolet%c3%adn-empleo-regi%c3%b3n-de-ays%c3%a9n-trimestre-m%c3%b3vil-junio---agosto-2026.pdf"
+        },
+        {
+          region: "Magallanes",
+          codigo: "MA",
+          tasa: 6.9,
+          variacion_pp: 0.7,
+          tasa_hombres: 6.1,
+          tasa_mujeres: 7.9,
+          informalidad: 20.9,
+          fuente: "INE, Boletín estadístico: empleo trimestral, región Magallanes y de la Antártica Chilena, edición n° 198, 30 de septiembre de 2026",
+          url: "https://regiones.ine.gob.cl/documentos/default-source/region-xii/estadisticas/ocupacion-y-desocupacion/boletines/2026/emp_jja_2026_(3-0).pdf"
+        }
+      ]
+    };
+
+    // SVGs con trazo continuo outline redondeado fiel a la referencia estándar
+    const SVG_ICONS = {
+      // Mujer: silueta estándar trapecio redondeado y piernas verticales separadas
+      female: `
+        <svg viewBox="0 0 100 100" width="34" height="34" stroke="currentColor" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="50" cy="20" r="13"/>
+          <path d="M36 46 C36 40, 42 38, 50 38 C58 38, 64 40, 64 46 L76 74 C78 78, 72 80, 68 80 L60 80 L60 92 C60 96, 52 96, 52 92 L52 80 L48 80 L48 92 C48 96, 40 96, 40 92 L40 80 L32 80 C28 80, 22 78, 24 74 Z"/>
+        </svg>
+      `,
+      // Hombre: silueta estándar contorno cuerpo y pantalón
+      male: `
+        <svg viewBox="0 0 100 100" width="34" height="34" stroke="currentColor" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="50" cy="20" r="13"/>
+          <path d="M30 46 C30 40, 36 38, 50 38 C64 38, 70 40, 70 46 L70 66 C70 70, 64 70, 64 66 L64 92 C64 96, 54 96, 54 92 L54 68 L46 68 L46 92 C46 96, 36 96, 36 92 L36 66 C36 70, 30 70, 30 66 Z"/>
+        </svg>
+      `,
+      // Dual: hombre y mujer juntos para igualdad (Aysén)
+      dual: `
+        <svg viewBox="0 0 140 100" width="44" height="34" stroke="currentColor" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Hombre izq -->
+          <circle cx="34" cy="20" r="12"/>
+          <path d="M18 46 C18 41, 23 39, 34 39 C45 39, 50 41, 50 46 L50 64 C50 67, 45 67, 45 64 L45 92 C45 95, 38 95, 38 92 L38 67 L30 67 L30 92 C30 95, 23 95, 23 92 L23 64 C23 67, 18 67, 18 64 Z"/>
+          <!-- Mujer der -->
+          <circle cx="106" cy="20" r="12"/>
+          <path d="M94 46 C94 41, 99 39, 106 39 C113 39, 118 41, 118 46 L128 73 C130 76, 125 78, 122 78 L115 78 L115 92 C115 95, 108 95, 108 92 L108 78 L104 78 L104 92 C104 95, 97 95, 97 92 L97 78 L90 78 C87 78, 82 76, 84 73 Z"/>
+        </svg>
+      `
+    };
+
+    // Estado local: inicia con índice 0 = Arica y Parinacota (AP)
+    let currentRegionIndex = 0;
+    let carouselOffset = 0;
+    let isDarkMode = false;
+
+    // Formateador con coma decimal
+    function formatDecimal(num, suffix = '') {
+      if (typeof num !== 'number') return 'N/C';
+      return num.toFixed(1).replace('.', ',') + suffix;
+    }
+
+    // Inicialización del DOM
+    document.addEventListener('DOMContentLoaded', () => {
+      populateSelector();
+      renderCarouselBars();
+      renderDesktopChart();
+      renderDesktopTable();
+      updateSelectedRegion(0); // Carga Arica y Parinacota por defecto
+      setupEvents();
+      setupThemeToggles();
+    });
+
+    function populateSelector() {
+      const select = document.getElementById('select-region-phone');
+      select.innerHTML = '';
+      DATASET.regiones.forEach((reg, idx) => {
+        const opt = document.createElement('option');
+        opt.value = idx;
+        opt.textContent = `${idx + 1}. ${reg.region} (${formatDecimal(reg.tasa, '%')})`;
+        select.appendChild(opt);
+      });
+    }
+
+    // Gráfica de carrusel móvil (4 barras visibles)
+    function renderCarouselBars() {
+      const track = document.getElementById('bars-track');
+      track.innerHTML = '';
+      const maxTasa = 12.0;
+
+      DATASET.regiones.forEach((reg, idx) => {
+        const col = document.createElement('div');
+        col.className = `bar-column ${idx === currentRegionIndex ? 'selected' : ''}`;
+        col.id = `bar-col-${idx}`;
+        col.setAttribute('role', 'listitem');
+        col.setAttribute('aria-label', `${reg.region}: ${formatDecimal(reg.tasa, '%')}`);
+
+        const heightPercent = Math.min(100, Math.round((reg.tasa / maxTasa) * 100));
+
+        col.innerHTML = `
+          <span class="bar-value">${formatDecimal(reg.tasa, '%')}</span>
+          <div class="bar-cylinder">
+            <div class="bar-fill" style="height: ${heightPercent}%;"></div>
+          </div>
+          <span class="bar-code">${reg.codigo}</span>
+        `;
+
+        col.addEventListener('click', () => {
+          updateSelectedRegion(idx);
+        });
+
+        track.appendChild(col);
+      });
+
+      updateCarouselView();
+    }
+
+    // Gráfica de escritorio interactiva con las 16 regiones completas (Norte a Sur)
+    function renderDesktopChart() {
+      const container = document.getElementById('desktop-bars-container');
+      if (!container) return;
+      container.innerHTML = '';
+      const maxTasa = 12.0;
+
+      DATASET.regiones.forEach((reg, idx) => {
+        const col = document.createElement('div');
+        col.className = `desk-bar-col ${idx === currentRegionIndex ? 'active' : ''}`;
+        col.id = `desk-bar-${idx}`;
+        col.setAttribute('role', 'listitem');
+        col.title = `${idx + 1}. ${reg.region}: ${formatDecimal(reg.tasa, '%')}`;
+
+        const heightPercent = Math.min(100, Math.round((reg.tasa / maxTasa) * 100));
+
+        col.innerHTML = `
+          <span class="desk-bar-val">${formatDecimal(reg.tasa, '%')}</span>
+          <div class="desk-bar-cyl">
+            <div class="desk-bar-inner" style="height: ${heightPercent}%;"></div>
+          </div>
+          <span class="desk-bar-code">${reg.codigo}</span>
+        `;
+
+        col.addEventListener('click', () => {
+          updateSelectedRegion(idx);
+        });
+
+        container.appendChild(col);
+      });
+    }
+
+    function updateCarouselView() {
+      const track = document.getElementById('bars-track');
+      const pageIndex = Math.floor(carouselOffset / 4);
+      track.style.transform = `translateX(-${pageIndex * 100}%)`;
+
+      const start = carouselOffset + 1;
+      const end = Math.min(carouselOffset + 4, DATASET.regiones.length);
+      document.getElementById('carousel-indicator').textContent = `${start} - ${end}`;
+
+      document.getElementById('btn-carousel-prev').disabled = carouselOffset === 0;
+      document.getElementById('btn-carousel-next').disabled = carouselOffset + 4 >= DATASET.regiones.length;
+    }
+
+    function renderDesktopTable() {
+      const tbody = document.querySelector('#table-regions-desktop tbody');
+      tbody.innerHTML = '';
+
+      DATASET.regiones.forEach((reg, idx) => {
+        const tr = document.createElement('tr');
+        tr.id = `desktop-row-${idx}`;
+        if (idx === currentRegionIndex) tr.className = 'active-row';
+
+        const varSign = reg.variacion_pp > 0 ? `+${formatDecimal(reg.variacion_pp)}` : formatDecimal(reg.variacion_pp);
+
+        tr.innerHTML = `
+          <td><strong>${reg.codigo}</strong></td>
+          <td>${reg.region}</td>
+          <td><span class="table-cifra">${formatDecimal(reg.tasa, '%')}</span></td>
+          <td><span class="table-cifra" style="font-weight: normal;">${varSign} pp</span></td>
+          <td><span class="table-cifra" style="font-weight: normal;">${formatDecimal(reg.tasa_mujeres, '%')}</span></td>
+          <td><span class="table-cifra" style="font-weight: normal;">${formatDecimal(reg.tasa_hombres, '%')}</span></td>
+          <td><span class="table-cifra" style="font-weight: normal;">${formatDecimal(reg.informalidad, '%')}</span></td>
+          <td>
+            <a href="${reg.url}" target="_blank" rel="noopener noreferrer" style="color: var(--color-buttons-tags); font-weight: bold; text-decoration: underline;">
+              Ver PDF
+            </a>
+          </td>
+        `;
+
+        tr.addEventListener('click', () => {
+          updateSelectedRegion(idx);
+        });
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateSelectedRegion(index) {
+      currentRegionIndex = index;
+      const reg = DATASET.regiones[index];
+
+      // Sincronizar Selector
+      const select = document.getElementById('select-region-phone');
+      if (select) select.value = index;
+
+      // Tarjeta 1: Desocupación Regional
+      document.getElementById('card-reg-name').textContent = reg.region;
+      document.getElementById('card-reg-rate').textContent = formatDecimal(reg.tasa, '%');
+      document.getElementById('card-reg-source').textContent = reg.fuente;
+
+      // Determinar género más afectado y seleccionar el icono exacto outline
+      let genderLabel = "";
+      let genderRate = 0;
+      let genderIconSvg = "";
+
+      if (reg.tasa_mujeres > reg.tasa_hombres) {
+        genderLabel = "Mujeres";
+        genderRate = reg.tasa_mujeres;
+        genderIconSvg = SVG_ICONS.female;
+      } else if (reg.tasa_hombres > reg.tasa_mujeres) {
+        genderLabel = "Hombres";
+        genderRate = reg.tasa_hombres;
+        genderIconSvg = SVG_ICONS.male;
+      } else {
+        genderLabel = "Mujeres y Hombres (Igual)";
+        genderRate = reg.tasa_mujeres;
+        genderIconSvg = SVG_ICONS.dual;
+      }
+
+      document.getElementById('card-gender-rate').textContent = formatDecimal(genderRate, '%');
+      document.getElementById('card-gender-label').textContent = genderLabel;
+      document.getElementById('card-gender-icon').innerHTML = genderIconSvg;
+      document.getElementById('card-gender-source').textContent = reg.fuente;
+
+      // Bloque de contexto
+      const varSign = reg.variacion_pp > 0 ? `+${formatDecimal(reg.variacion_pp)}` : formatDecimal(reg.variacion_pp);
+      document.getElementById('card-reg-var').textContent = `${varSign} pp`;
+      document.getElementById('context-informalidad-label').innerHTML = `Tasa de informalidad regional: <span style="font-family: var(--font-family-numbers); font-weight: bold;">${formatDecimal(reg.informalidad, '%')}</span>`;
+
+      // Botón enlace a nota del observatorio con PDF oficial de la región
+      const btnNota = document.getElementById('btn-nota-completa');
+      btnNota.href = reg.url;
+      btnNota.setAttribute('aria-label', `Nota completa de la región ${reg.region}`);
+
+      // Footer
+      document.getElementById('footer-source-text').textContent = `${reg.fuente}. Serie nacional: Boletín ENE n° ${DATASET.boletin}.`;
+
+      // Sincronizar selección en gráfica móvil
+      document.querySelectorAll('.bar-column').forEach((el, i) => {
+        el.classList.toggle('selected', i === index);
+      });
+
+      // Sincronizar selección en gráfica de escritorio
+      document.querySelectorAll('.desk-bar-col').forEach((el, i) => {
+        el.classList.toggle('active', i === index);
+      });
+
+      // Asegurar visibilidad en carrusel móvil
+      const targetOffset = Math.floor(index / 4) * 4;
+      if (carouselOffset !== targetOffset) {
+        carouselOffset = targetOffset;
+        updateCarouselView();
+      }
+
+      // Sincronizar tabla de escritorio
+      document.querySelectorAll('#table-regions-desktop tbody tr').forEach((tr, i) => {
+        tr.classList.toggle('active-row', i === index);
+        if (i === index) {
+          tr.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+    }
+
+    function toggleTheme() {
+      isDarkMode = !isDarkMode;
+      document.body.classList.toggle('dark-mode', isDarkMode);
+
+      // Actualizar etiquetas e iconos de los botones
+      const label = isDarkMode ? "Modo Claro" : "Modo Oscuro";
+      const icon = isDarkMode ? "☀️" : "🌙";
+
+      const navBtnLabel = document.getElementById('theme-toggle-label');
+      const navBtnIcon = document.getElementById('theme-toggle-icon');
+      if (navBtnLabel) navBtnLabel.textContent = label;
+      if (navBtnIcon) navBtnIcon.textContent = icon;
+
+      const phoneIcon = document.getElementById('phone-toggle-icon');
+      if (phoneIcon) phoneIcon.textContent = icon;
+
+      const demoLabel = document.getElementById('demo-toggle-label');
+      if (demoLabel) demoLabel.textContent = isDarkMode ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro";
+    }
+
+    function setupThemeToggles() {
+      const globalBtn = document.getElementById('global-theme-toggle');
+      if (globalBtn) globalBtn.addEventListener('click', toggleTheme);
+
+      const demoBtn = document.getElementById('demo-theme-toggle');
+      if (demoBtn) demoBtn.addEventListener('click', toggleTheme);
+
+      const phoneBtn = document.getElementById('phone-theme-toggle');
+      if (phoneBtn) phoneBtn.addEventListener('click', toggleTheme);
+    }
+
+    function setupEvents() {
+      document.getElementById('select-region-phone').addEventListener('change', (e) => {
+        updateSelectedRegion(parseInt(e.target.value, 10));
+      });
+
+      document.getElementById('btn-carousel-prev').addEventListener('click', () => {
+        if (carouselOffset >= 4) {
+          carouselOffset -= 4;
+          updateCarouselView();
+        }
+      });
+
+      document.getElementById('btn-carousel-next').addEventListener('click', () => {
+        if (carouselOffset + 4 < DATASET.regiones.length) {
+          carouselOffset += 4;
+          updateCarouselView();
+        }
+      });
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
